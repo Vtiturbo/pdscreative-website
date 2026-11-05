@@ -147,6 +147,10 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
 .demo-chip.warn{border-color:rgba(232,176,122,.6)}.demo-chip.warn i{background:var(--warn)}
 .demo-card{border:1px solid rgba(157,177,255,.35);background:rgba(157,177,255,.06);border-radius:12px;padding:14px;display:grid;gap:10px}
 .demo-card.warn{border-color:rgba(232,176,122,.45);background:rgba(232,176,122,.06)}
+.howto video{display:block;width:100%;max-width:100%;aspect-ratio:1;border-radius:12px;border:1px solid var(--line);background:#0E1015;cursor:zoom-in}
+.howto .small b{color:var(--fg)}
+.howto-big{border:0;background:none;color:var(--accent);font-size:.8rem;font-weight:600;cursor:pointer;padding:0}
+.howto.big video{position:fixed;left:50%;top:50%;width:min(86vw,86vh);height:auto;transform:translate(-50%,-50%);z-index:90;box-shadow:0 0 0 100vmax rgba(8,9,12,.82);cursor:zoom-out}
 .demo-time{font:600 2rem var(--f-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
 .demo-card .meter i{background:var(--accent)}.demo-card.warn .meter i{background:var(--warn)}
 .viewport.commenting #site,.viewport.commenting .c-layer{cursor:crosshair}
@@ -440,6 +444,12 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
           <li class="now"><span>Build &amp; review</span><small>Now</small></li>
           <li><span>Launch</span><small>6 Nov</small></li>
         </ul>
+      </div>
+
+      <div class="p-sec howto" id="howtoSec">
+        <div class="p-head"><h3>How to add a comment</h3><button class="howto-big" type="button" id="howtoBig">Watch bigger</button></div>
+        <video id="howtoVid" src="how-to-comment.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Video: click Add comment, click the part of your website you want changed, type your comment and press Post comment"></video>
+        <p class="small">Click <b>Add comment</b>, click the part of your website you'd like changed, then type your comment and press <b>Post comment</b>.</p>
       </div>
 
       <div class="p-sec" id="filesSec">
@@ -953,6 +963,12 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
     $('approve').hidden = ok; $('approve').textContent = 'Approve this demo';
     renderSite(true);
   }
+  /* How-to video: click to view it bigger, click again (or Esc) to close */
+  const howBig = on=>{ $('howtoSec').classList.toggle('big', on); $('howtoBig').textContent = on ? 'Close' : 'Watch bigger'; };
+  $('howtoBig').addEventListener('click', ()=>howBig(!$('howtoSec').classList.contains('big')));
+  $('howtoVid').addEventListener('click', ()=>howBig(!$('howtoSec').classList.contains('big')));
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') howBig(false); });
+
   /* ===== Screenshot and recording deterrents ===== */
   let shieldTimer;
   function shield(on, ms){
