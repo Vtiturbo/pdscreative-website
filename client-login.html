@@ -137,6 +137,7 @@ label{display:grid;gap:7px}
 .shield b{display:block;font:600 1.1rem var(--f-display);margin-bottom:6px}
 .shield span{color:var(--muted);font-size:.9rem}
 body.no-select{-webkit-user-select:none;user-select:none}
+body.no-select input,body.no-select textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 @media print{body{display:none!important}}
 .device.fs .viewport{height:auto;flex:1}
 .viewport iframe{display:block;width:100%;height:100%;border:0;background:#fff}
@@ -831,8 +832,10 @@ body.no-select{-webkit-user-select:none;user-select:none}
     draft = { x: ((e.clientX - box.left) / box.width) * 100, y: e.clientY - box.top + (project.liveUrl ? vp.scrollTop : 0) };
     renderPins();
     $('composer').hidden = false;
-    $('composerLabel').textContent = 'New comment on '+(LABELS[curPage()]||'this page')+' · v'+ver;
-    $('cText').focus();
+    $('composerLabel').textContent = 'New comment on '+(LABELS[curPage()]||'this page')+(project.liveUrl?'':' · v'+ver);
+    $('composer').scrollIntoView({behavior:'smooth', block:'center'});
+    setTimeout(()=>$('cText').focus({preventScroll:true}), 350);
+    toast('Type your comment in the panel, then press Post comment');
   }
   $('cCancel').addEventListener('click', ()=>{ draft=null; $('composer').hidden=true; $('cText').value=''; renderPins(); });
   $('cSave').addEventListener('click', ()=>{
