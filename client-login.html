@@ -486,7 +486,7 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
   };
   const DEMO_HOURS = 48;
   /* "Demo ended" contact buttons. Add Pedro's number in international format to show Call me now, e.g. '+447700900123'. */
-  const CONTACT = { email:'pedro.de.sousa@hotmail.co.uk', phone:'', phoneLabel:'' };
+  const CONTACT = { email:'pedro.de.sousa@hotmail.co.uk', phone:'+447356203744', phoneLabel:'07356 203744' };
   /* Demo approvals are emailed to pds.creativedesign@gmail.com via Formspree. */
   const APPROVAL_ENDPOINT = 'https://formspree.io/f/mzeewrwl';
   const fmtDate = t => new Date(t).toLocaleString('en-GB',{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit',timeZone:'Europe/London'}).replace(',', '');
@@ -851,8 +851,10 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
   $('cSave').addEventListener('click', ()=>{
     const text = $('cText').value.trim(); if(!text){ $('cText').focus(); return; }
     const id = comments.reduce((m,c)=>Math.max(m,c.id),0)+1;
-    comments.push({id, proj:project.code, v:ver, page:curPage(), x:draft.x, y:draft.y, text, who:'You', when:'Just now', resolved:false});
+    const page = curPage();
+    comments.push({id, proj:project.code, v:ver, page, x:draft.x, y:draft.y, text, who:'You', when:'Just now', resolved:false});
     store.set('pw-comments2', comments);
+    notifyComment(text, page);
     draft=null; $('cText').value=''; $('composer').hidden=true; setCommenting(false);
     active=id; renderPins(); toast('Comment posted');
   });
@@ -968,6 +970,22 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
   $('howtoBig').addEventListener('click', ()=>howBig(!$('howtoSec').classList.contains('big')));
   $('howtoVid').addEventListener('click', ()=>howBig(!$('howtoSec').classList.contains('big')));
   document.addEventListener('keydown', e=>{ if(e.key==='Escape') howBig(false); });
+
+  /* Every comment on a client project is emailed to Pedro (not the example project). */
+  function notifyComment(text, page){
+    if(project.rolling) return;
+    const f = new FormData();
+    f.set('_subject', 'New comment: '+project.name);
+    f.set('project', project.name);
+    f.set('access_code', project.code);
+    f.set('comment', text);
+    f.set('where', page==='live' ? 'Demo website' : (LABELS[page]||page));
+    f.set('posted_at', new Date().toLocaleString('en-GB',{dateStyle:'full',timeStyle:'short',timeZone:'Europe/London'}));
+    f.set('demo_locks_at', fmtDate(demo.end));
+    fetch(APPROVAL_ENDPOINT, {method:'POST', headers:{'Accept':'application/json'}, body:f})
+      .then(r=>{ if(!r.ok) throw new Error(r.status); toast('Comment sent to Pedro'); })
+      .catch(()=>toast('Comment saved, but it couldn\'t be sent. Please email Pedro too.'));
+  }
 
   /* ===== Screenshot and recording deterrents ===== */
   let shieldTimer;
