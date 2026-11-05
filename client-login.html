@@ -124,6 +124,15 @@ label{display:grid;gap:7px}
 .addr{background:none;border:0;padding:0}
 .addr>svg,#addr{display:none}
 .viewport{position:relative;height:680px;overflow:auto;container-type:inline-size;background:#F3EEE6}
+.device{position:relative}
+.wm{position:absolute;inset:36px 0 0;z-index:8;pointer-events:none;background-repeat:repeat;animation:wmDrift 40s linear infinite}
+.device.mobile .wm,.device.tablet .wm{inset:46px 0 0}
+@keyframes wmDrift{from{background-position:0 0}to{background-position:420px 240px}}
+.shield{position:absolute;inset:36px 0 0;z-index:9;display:grid;place-items:center;background:rgba(14,16,21,.72);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);color:var(--fg);text-align:center;padding:24px;cursor:pointer}
+.shield b{display:block;font:600 1.1rem var(--f-display);margin-bottom:6px}
+.shield span{color:var(--muted);font-size:.9rem}
+body.no-select{-webkit-user-select:none;user-select:none}
+@media print{body{display:none!important}}
 .device.fs .viewport{height:auto;flex:1}
 .viewport iframe{display:block;width:100%;height:100%;border:0;background:#fff}
 .demo-chip{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:999px;border:1px solid rgba(157,177,255,.45);font-size:.85rem;color:var(--muted);white-space:nowrap}
@@ -373,6 +382,8 @@ label{display:grid;gap:7px}
           <a class="nav-b hide-mob" id="bNewTab" href="#" target="_blank" rel="noopener" aria-label="Open in new tab" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg></a>
           <button class="nav-b" id="bFull" type="button" aria-label="Full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="fsIcon"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
         </div>
+        <div class="wm" id="wm" aria-hidden="true"></div>
+        <div class="shield" id="shield" hidden><div><b>Preview hidden</b><span>Click here to keep viewing your demo.</span></div></div>
         <div class="viewport" id="viewport">
           <div class="loadbar" id="loadbar"></div>
           <div id="siteHost"></div>
@@ -488,7 +499,7 @@ label{display:grid;gap:7px}
     store.set('pw-code', code);
     showApp(code);
   });
-  $('logout').addEventListener('click', ()=>{ clearInterval(demoTimer); store.set('pw-code', null); exitFull(); $('app').hidden = true; $('login').hidden = false; $('lCode').value=''; });
+  $('logout').addEventListener('click', ()=>{ clearInterval(demoTimer); document.body.classList.remove('no-select'); store.set('pw-code', null); exitFull(); $('app').hidden = true; $('login').hidden = false; $('lCode').value=''; });
 
   /* ===== Sample client site: Northline Roasters ===== */
   const PRODUCTS = [
@@ -829,7 +840,7 @@ label{display:grid;gap:7px}
     });
     if(draft){ const p=document.createElement('span'); p.className='pin active'; p.textContent='+'; p.style.left=draft.x+'%'; p.style.top=draft.y+'px'; surf.appendChild(p); }
     const cl = $('cList'); cl.innerHTML='';
-    if(!verList.length) cl.innerHTML = '<div class="c-empty">No comments on v'+ver+' yet. Choose "Add comment", then click anywhere on the page.</div>';
+    if(!verList.length) cl.innerHTML = '<div class="c-empty">'+(project.liveUrl?'No comments yet.':'No comments on v'+ver+' yet.')+' Choose "Add comment", then click anywhere on the page.</div>';
     verList.forEach((c,i)=>{
       const b = document.createElement('div');
       b.className='c-item'+(c.resolved?' resolved':'')+(active===c.id?' active':''); b.tabIndex=0;
@@ -920,7 +931,39 @@ label{display:grid;gap:7px}
     $('approve').hidden = ok; $('approve').textContent = 'Approve this demo';
     renderSite(true);
   }
+  /* ===== Screenshot and recording deterrents ===== */
+  let shieldTimer;
+  function shield(on, ms){
+    clearTimeout(shieldTimer);
+    $('shield').hidden = !on;
+    if(on && ms) shieldTimer = setTimeout(()=>{ $('shield').hidden = true; }, ms);
+  }
+  function setWatermark(){
+    const stamp = new Date().toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',timeZone:'Europe/London'});
+    const t = ('Confidential demo · '+project.name+' · '+project.code+' · '+stamp).replace(/[<>&"]/g,'');
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="420" height="240"><g transform="rotate(-22 210 120)"><text x="210" y="124" text-anchor="middle" font-family="system-ui,sans-serif" font-size="15" font-weight="600" fill="rgba(120,120,135,0.28)">'+t+'</text></g></svg>';
+    $('wm').style.backgroundImage = 'url("data:image/svg+xml,'+encodeURIComponent(svg)+'")';
+  }
+  const protectKeys = e=>{
+    const k = (e.key||'').toLowerCase(), mod = e.metaKey||e.ctrlKey;
+    if(k==='printscreen' || (e.metaKey && e.shiftKey)){ shield(true, 4000); if(k==='printscreen'){ try{ navigator.clipboard.writeText('').catch(()=>{}); }catch(err){} } }
+    if(mod && ['s','p','u'].includes(k)){ e.preventDefault(); }
+  };
+  document.addEventListener('keydown', protectKeys);
+  document.addEventListener('keyup', e=>{ if((e.key||'').toLowerCase()==='printscreen'){ shield(true, 4000); try{ navigator.clipboard.writeText('').catch(()=>{}); }catch(err){} } });
+  document.addEventListener('contextmenu', e=>{ if(e.target.closest('#device')) e.preventDefault(); });
+  document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='hidden') shield(true); });
+  window.addEventListener('blur', ()=>{ setTimeout(()=>{ if(document.activeElement && document.activeElement.id==='liveFrame') return; if(!$('app').hidden) shield(true); }, 60); });
+  window.addEventListener('message', e=>{
+    if(!project || !project.liveUrl || !e.data || e.data.pds!=='demo') return;
+    if(new URL(project.liveUrl).origin !== e.origin) return;
+    if(e.data.state==='blur') setTimeout(()=>{ if(!document.hasFocus()) shield(true); }, 80);
+    if(e.data.state==='capture') shield(true, 4000);
+  });
+  $('shield').addEventListener('click', ()=>shield(false));
+
   function boot(){
+    setWatermark(); shield(false); document.body.classList.add('no-select');
     clearInterval(demoTimer); tickDemo(); demoTimer = setInterval(tickDemo, 1000);
     $('demoChip').hidden = false;
     if(project.liveUrl){ setupLive(); return; }
