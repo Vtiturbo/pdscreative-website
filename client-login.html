@@ -85,6 +85,11 @@ label{display:grid;gap:7px}
 .demo{border:1px dashed var(--line-strong);border-radius:12px;padding:12px 14px;color:var(--muted);font-size:.86rem}
 .demo b{color:var(--fg);font-weight:600}
 .err{color:var(--warn);font-size:.86rem;min-height:1.2em}
+.lock-box{border:1px solid rgba(232,176,122,.4);background:rgba(232,176,122,.06);border-radius:14px;padding:16px;display:grid;gap:10px}
+.lock-box b{font:600 1.05rem var(--f-display)}
+.lock-box>span{color:var(--muted);font-size:.9rem}
+.lock-cta{display:flex;flex-wrap:wrap;gap:8px}
+.lock-cta .btn{height:44px;padding:0 20px;text-decoration:none}
 @media (max-width:820px){#login{grid-template-columns:1fr}.login-side{border-right:0;border-bottom:1px solid var(--line)}.login-side ul{display:none}}
 
 /* ---------- App shell ---------- */
@@ -329,6 +334,12 @@ body.no-select{-webkit-user-select:none;user-select:none}
       </div>
       <label><span class="small">Access code</span><input id="lCode" autocomplete="off" placeholder="e.g. NORTH-2026" spellcheck="false" autofocus style="height:50px;font-size:1.1rem;letter-spacing:.08em;text-transform:uppercase"></label>
       <p class="err" id="lErr" aria-live="polite"></p>
+      <div class="lock-box" id="lockBox" hidden>
+        <b>Your free demo has ended</b>
+        <span>Loved what you saw? Get in touch and we'll pick up where you left off.</span>
+        <div class="lock-cta"><a class="btn btn-prime" id="lockMail" href="#">Email me now</a><a class="btn" id="lockCall" href="#" hidden>Call me now</a></div>
+        <span class="small" id="lockInfo"></span>
+      </div>
       <button class="btn btn-prime" type="submit" style="height:46px">Open my project
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       <div class="demo">Preview mode: use access code <b>NORTH-2026</b> to see an example client project.</div>
@@ -463,6 +474,8 @@ body.no-select{-webkit-user-select:none;user-select:none}
     'VERVE-48K7': { name:'Verve Display', type:'Free website demo', initials:'VD', liveUrl:'https://verve-display.vercel.app/work', sharedAt:'2026-11-03T15:56:00Z' }
   };
   const DEMO_HOURS = 48;
+  /* "Demo ended" contact buttons. Add Pedro's number in international format to show Call me now, e.g. '+447700900123'. */
+  const CONTACT = { email:'pedro.de.sousa@hotmail.co.uk', phone:'', phoneLabel:'' };
   /* Demo approvals are emailed to pds.creativedesign@gmail.com via Formspree. */
   const APPROVAL_ENDPOINT = 'https://formspree.io/f/mzeewrwl';
   const fmtDate = t => new Date(t).toLocaleString('en-GB',{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit',timeZone:'Europe/London'}).replace(',', '');
@@ -480,10 +493,16 @@ body.no-select{-webkit-user-select:none;user-select:none}
     const w = demoWindow(code);
     clearInterval(demoTimer); store.set('pw-code', null);
     $('app').hidden = true; $('login').hidden = false; $('lCode').value = '';
-    $('lErr').textContent = 'This free demo expired on '+fmtDate(w.end)+' and is now locked. To carry on, contact Pedro at pedro.de.sousa@hotmail.co.uk.';
+    $('lErr').textContent = 'This free demo ended on '+fmtDate(w.end)+' and is now locked.';
+    const p = PROJECTS[code];
+    $('lockMail').href = 'mailto:'+CONTACT.email+'?subject='+encodeURIComponent(p.name+' demo: I\'d like to go ahead')+'&body='+encodeURIComponent('Hi Pedro,\n\nOur free demo of the new '+p.name+' website has ended and we\'d like to talk about going ahead.\n\nThanks,\n');
+    $('lockCall').hidden = !CONTACT.phone; if(CONTACT.phone) $('lockCall').href = 'tel:'+CONTACT.phone;
+    $('lockInfo').textContent = 'Email '+CONTACT.email+(CONTACT.phone ? ' or call '+(CONTACT.phoneLabel||CONTACT.phone) : '');
+    $('lockBox').hidden = false;
   }
   function showApp(code){
     if(Date.now() >= demoWindow(code).end){ lockOut(code); return; }
+    $('lockBox').hidden = true;
     project = PROJECTS[code]; project.code = code; demo = demoWindow(code);
     $('projType').textContent = project.type; $('projInit').textContent = project.initials;
     $('projName').textContent = project.name;
