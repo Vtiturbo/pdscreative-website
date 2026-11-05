@@ -9,7 +9,10 @@ The website for **pdscreative.com** (Pedro de Sousa: web design, photography and
 ## Pages
 - `index.html` is the homepage.
 - `pricing.html` holds the pricing page and quote builder.
-- `client-login.html` is the client portal (demo access code: NORTH-2026). It's hidden from search engines.
+- `client-login.html` is the client portal. It's hidden from search engines.
+  - Clients are listed in `PROJECTS` near the bottom of the file (access code, name, live demo URL, `sharedAt`).
+  - Every free demo locks 48 hours after `sharedAt`. The demo site itself must also be locked (see verve-display `src/lib/demo.ts`).
+  - Codes: NORTH-2026 (example project), VERVE-48K7 (Verve Display, locks 5 Nov 2026 3:56pm).
 - `PDS-Pricing-and-Packages.pdf` is the downloadable price list.
 
 ## Forms

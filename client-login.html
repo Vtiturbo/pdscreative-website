@@ -126,6 +126,14 @@ label{display:grid;gap:7px}
 .viewport{position:relative;height:680px;overflow:auto;container-type:inline-size;background:#F3EEE6}
 .device.fs .viewport{height:auto;flex:1}
 .viewport iframe{display:block;width:100%;height:100%;border:0;background:#fff}
+.demo-chip{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:999px;border:1px solid rgba(157,177,255,.45);font-size:.85rem;color:var(--muted);white-space:nowrap}
+.demo-chip i{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.demo-chip b{color:var(--fg);font-variant-numeric:tabular-nums}
+.demo-chip.warn{border-color:rgba(232,176,122,.6)}.demo-chip.warn i{background:var(--warn)}
+.demo-card{border:1px solid rgba(157,177,255,.35);background:rgba(157,177,255,.06);border-radius:12px;padding:14px;display:grid;gap:10px}
+.demo-card.warn{border-color:rgba(232,176,122,.45);background:rgba(232,176,122,.06)}
+.demo-time{font:600 2rem var(--f-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.demo-card .meter i{background:var(--accent)}.demo-card.warn .meter i{background:var(--warn)}
 .viewport.commenting #site,.viewport.commenting .c-layer{cursor:crosshair}
 .c-layer{position:absolute;inset:0;z-index:4}
 .loadbar{position:absolute;top:0;left:0;height:2px;background:var(--accent);z-index:6;width:0;opacity:0}
@@ -326,10 +334,10 @@ label{display:grid;gap:7px}
       <div class="logo"><span class="pds-logo"><svg class="pds-mark" viewBox="0 0 32 32" aria-hidden="true"><path class="c c1" d="M2.5 9V5.5a3 3 0 0 1 3-3H9"/><path class="c c2" d="M23 2.5h3.5a3 3 0 0 1 3 3V9"/><path class="c c3" d="M29.5 23v3.5a3 3 0 0 1-3 3H23"/><path class="c c4" d="M9 29.5H5.5a3 3 0 0 1-3-3V23"/><path class="p" d="M11.5 23.5v-15h5.2a4.6 4.6 0 0 1 0 9.2h-5.2"/><circle class="d" cx="21.6" cy="22" r="2"/></svg><span class="pds-word"><b>PDS</b><span>Creative</span></span></span></div>
       <span class="sep">/</span>
       <b id="projName">Northline Roasters</b>
-      <span class="small">Website redesign</span>
+      <span class="small" id="projType">Website redesign</span>
     </div>
     <div class="who">
-      <div class="avatar" aria-hidden="true">SN</div>
+      <div class="avatar" aria-hidden="true" id="projInit">SN</div>
       <a class="btn" href="./" aria-label="Back to website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9H3z"/></svg><span>Website</span></a>
       <button class="btn" id="logout" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 17l5-5-5-5M20 12H9M12 21H5V3h7"/></svg><span>Sign out</span></button>
     </div>
@@ -349,6 +357,7 @@ label{display:grid;gap:7px}
       </div>
     </div>
     <div class="tools-r">
+      <span class="demo-chip" id="demoChip" hidden><i></i>Free demo · locks in <b id="demoLeft">--:--:--</b></span>
       <button class="btn" id="commentToggle" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"/></svg>Add comment</button>
     </div>
   </div>
@@ -373,8 +382,16 @@ label{display:grid;gap:7px}
 
     <aside class="panel" aria-label="Review">
       <div class="p-sec">
-        <div class="p-head"><h3>Project status</h3><span class="pill ok"><i></i>On schedule</span></div>
-        <div><div class="p-head" style="margin-bottom:8px"><span class="small">Build · Day 4 of 5</span><b id="pct">64%</b></div><div class="meter"><i id="meter" style="--w:64%"></i></div></div>
+        <div class="demo-card" id="demoCard">
+          <div class="p-head"><h3>Free demo</h3><span class="pill ok" id="demoPill"><i></i>Open</span></div>
+          <span class="demo-time" id="demoTime">--:--:--</span>
+          <div class="meter"><i id="demoMeter" style="--w:100%"></i></div>
+          <p class="small" id="demoText"></p>
+        </div>
+      </div>
+      <div class="p-sec">
+        <div class="p-head"><h3>Project status</h3><span class="pill ok" id="statusPill"><i></i>On schedule</span></div>
+        <div id="buildMeter"><div class="p-head" style="margin-bottom:8px"><span class="small">Build · Day 4 of 5</span><b id="pct">64%</b></div><div class="meter"><i id="meter" style="--w:64%"></i></div></div>
         <div class="approve-box" id="approveBox">
           <div class="p-head"><b style="font-size:.92rem" id="apTitle">v3 needs your approval</b><span class="pill wait" id="apPill">Waiting</span></div>
           <p class="small" id="apText"></p>
@@ -394,7 +411,7 @@ label{display:grid;gap:7px}
 
       <div class="p-sec">
         <h3>Timeline</h3>
-        <ul class="tl">
+        <ul class="tl" id="tlList">
           <li class="done"><span>Discovery call &amp; brief</span><small>2 Nov</small></li>
           <li class="done"><span>Designs signed off</span><small>4 Nov</small></li>
           <li class="now"><span>Build &amp; review</span><small>Now</small></li>
@@ -402,7 +419,7 @@ label{display:grid;gap:7px}
         </ul>
       </div>
 
-      <div class="p-sec">
+      <div class="p-sec" id="filesSec">
         <h3>Files</h3>
         <div class="files">
           <div class="file"><span class="ic">PDF</span><div>Project brief<small>Signed 2 Nov</small></div></div>
@@ -429,19 +446,37 @@ label{display:grid;gap:7px}
      (e.g. "https://northline.pds.design"). The portal then loads the real site in the browser window.
      With liveUrl left empty, the built-in example site is shown instead. */
   const PROJECTS = {
-    'NORTH-2026': { name:'Northline Roasters', domain:'northlineroasters.co.uk', liveUrl:'' }
+    /* Example project: its 48-hour demo starts the first time it's opened in this browser. */
+    'NORTH-2026': { name:'Northline Roasters', type:'Website redesign', initials:'SN', domain:'northlineroasters.co.uk', liveUrl:'', rolling:true },
+    /* Verve Display free demo: shared 3 Nov 2026, 3:56pm, locks 48 hours later. */
+    'VERVE-48K7': { name:'Verve Display', type:'Free website demo', initials:'VD', liveUrl:'https://verve-display.vercel.app/work', sharedAt:'2026-11-03T15:56:00Z' }
   };
+  const DEMO_HOURS = 48;
+  const fmtDate = t => new Date(t).toLocaleString('en-GB',{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit',timeZone:'Europe/London'}).replace(',', '');
+  function demoWindow(code){
+    const p = PROJECTS[code];
+    let start = p.sharedAt ? Date.parse(p.sharedAt) : null;
+    if(p.rolling){ start = store.get('pw-demo-start-'+code, null); if(!start){ start = Date.now(); store.set('pw-demo-start-'+code, start); } }
+    return {start, end: start + DEMO_HOURS*3600*1000};
+  }
   let project = null;
 
   /* ===== Sign in ===== */
+  let demoTimer = null, demo = null;
+  function lockOut(code){
+    const w = demoWindow(code);
+    clearInterval(demoTimer); store.set('pw-code', null);
+    $('app').hidden = true; $('login').hidden = false; $('lCode').value = '';
+    $('lErr').textContent = 'This free demo expired on '+fmtDate(w.end)+' and is now locked. To carry on, contact Pedro at pedro.de.sousa@hotmail.co.uk.';
+  }
   function showApp(code){
-    project = PROJECTS[code];
+    if(Date.now() >= demoWindow(code).end){ lockOut(code); return; }
+    project = PROJECTS[code]; project.code = code; demo = demoWindow(code);
+    $('projType').textContent = project.type; $('projInit').textContent = project.initials;
     $('projName').textContent = project.name;
     $('login').hidden = true; $('app').hidden = false;
     boot();
   }
-  const saved = store.get('pw-code', null);
-  if(saved && PROJECTS[saved]) showApp(saved);
   $('loginForm').addEventListener('submit', e=>{
     e.preventDefault();
     const code = $('lCode').value.trim().toUpperCase();
@@ -451,7 +486,7 @@ label{display:grid;gap:7px}
     store.set('pw-code', code);
     showApp(code);
   });
-  $('logout').addEventListener('click', ()=>{ store.set('pw-code', null); exitFull(); $('app').hidden = true; $('login').hidden = false; $('lCode').value=''; });
+  $('logout').addEventListener('click', ()=>{ clearInterval(demoTimer); store.set('pw-code', null); exitFull(); $('app').hidden = true; $('login').hidden = false; $('lCode').value=''; });
 
   /* ===== Sample client site: Northline Roasters ===== */
   const PRODUCTS = [
@@ -644,12 +679,12 @@ label{display:grid;gap:7px}
     if(project.liveUrl){
       host.innerHTML = `<iframe id="liveFrame" title="${project.name} website" src="${project.liveUrl}"></iframe>`;
       $('addr').innerHTML = '<b>'+project.liveUrl.replace(/^https?:\/\//,'')+'</b>';
-      $('bNewTab').hidden = false; $('bNewTab').href = project.liveUrl;
+      $('bNewTab').hidden = true; host.style.height = '100%';
       $('bBack').disabled = true; $('bFwd').disabled = true;
       renderPins(); return;
     }
     const r = route(), [k, arg] = r.split('/');
-    host.innerHTML = `<div class="site v${ver}" id="site">${nav(k)}<main class="s-page">${PAGES[k](arg)}</main>${foot}${sToastMsg?`<div class="s-toast">${sToastMsg} <button data-go="basket">View basket</button></div>`:''}</div>`;
+    host.style.height = ""; host.innerHTML = `<div class="site v${ver}" id="site">${nav(k)}<main class="s-page">${PAGES[k](arg)}</main>${foot}${sToastMsg?`<div class="s-toast">${sToastMsg} <button data-go="basket">View basket</button></div>`:''}</div>`;
     $('addr').innerHTML = '<span>https://</span><b>'+project.domain+'</b><span>'+pathFor(r)+'</span>';
     $('bBack').disabled = hi===0; $('bFwd').disabled = hi>=hist.length-1;
     if(scrollTop) $('viewport').scrollTop = 0;
@@ -771,7 +806,7 @@ label{display:grid;gap:7px}
   $('cSave').addEventListener('click', ()=>{
     const text = $('cText').value.trim(); if(!text){ $('cText').focus(); return; }
     const id = comments.reduce((m,c)=>Math.max(m,c.id),0)+1;
-    comments.push({id, v:ver, page:curPage(), x:draft.x, y:draft.y, text, who:'You', when:'Just now', resolved:false});
+    comments.push({id, proj:project.code, v:ver, page:curPage(), x:draft.x, y:draft.y, text, who:'You', when:'Just now', resolved:false});
     store.set('pw-comments2', comments);
     draft=null; $('cText').value=''; $('composer').hidden=true; setCommenting(false);
     active=id; renderPins(); toast('Comment posted');
@@ -780,7 +815,7 @@ label{display:grid;gap:7px}
   function renderPins(){
     const surf = surface(); if(!surf) return;
     vp.querySelectorAll('.pin').forEach(p=>p.remove());
-    const verList = comments.filter(c=>c.v===ver);
+    const verList = comments.filter(c=>(c.proj||'NORTH-2026')===project.code && (project.liveUrl || c.v===ver));
     const here = verList.filter(c=>c.page===curPage());
     here.forEach(c=>{
       const n = verList.indexOf(c)+1;
@@ -836,11 +871,47 @@ label{display:grid;gap:7px}
       $('meter').style.setProperty('--w','64%'); $('pct').textContent='64%';
     }
   }
-  $('approve').addEventListener('click', ()=>{ approved[3]=true; store.set('pw-approved',approved); renderApproval(); toast('v3 approved'); });
+  $('approve').addEventListener('click', ()=>{
+    if(project.liveUrl){ approved['live-'+project.code]=true; store.set('pw-approved',approved); setupLive(); toast('Demo approved'); return; }
+    approved[3]=true; store.set('pw-approved',approved); renderApproval(); toast('v3 approved');
+  });
 
   let tt;
   function toast(msg){ const t=$('toast'); t.textContent=msg; t.hidden=false; clearTimeout(tt); tt=setTimeout(()=>t.hidden=true,2600); }
 
-  function boot(){ hist=['home']; hi=0; setVersion(3); }
+  const pad = n => String(n).padStart(2,'0');
+  function tickDemo(){
+    const left = demo.end - Date.now();
+    if(left <= 0){ lockOut(project.code); return; }
+    const s = Math.floor(left/1000), txt = pad(Math.floor(s/3600))+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60);
+    const warn = left < 6*3600*1000;
+    $('demoLeft').textContent = txt; $('demoTime').textContent = txt;
+    $('demoChip').classList.toggle('warn', warn); $('demoCard').classList.toggle('warn', warn);
+    $('demoPill').className = 'pill '+(warn?'wait':'ok'); $('demoPill').innerHTML = '<i></i>'+(warn?'Ending soon':'Open');
+    $('demoMeter').style.setProperty('--w', Math.max(0, left/(demo.end-demo.start)*100).toFixed(1)+'%');
+    $('demoText').textContent = 'Your demo locks on '+fmtDate(demo.end)+'. After that it can no longer be opened.';
+  }
+  function setupLive(){
+    $('versions').hidden = true; $('verTag').hidden = true; $('filesSec').hidden = true; $('buildMeter').hidden = true;
+    $('statusPill').className = 'pill wait'; $('statusPill').innerHTML = '<i></i>Awaiting your decision';
+    $('tlList').innerHTML = '<li class="done"><span>Free demo shared</span><small>'+fmtDate(demo.start).split(' ').slice(0,3).join(' ')+'</small></li><li class="now"><span>Your review</span><small>Now</small></li><li><span>Build</span><small>5 working days</small></li><li><span>Launch</span><small>After approval</small></li>';
+    const ok = !!approved['live-'+project.code];
+    $('approveBox').classList.toggle('done', ok);
+    $('apTitle').textContent = ok ? 'Demo approved' : 'Love your demo?';
+    $('apPill').className = 'pill '+(ok?'ok':'wait'); $('apPill').innerHTML = '<i></i>'+(ok?'Approved':'Waiting');
+    $('apText').textContent = ok ? 'Thanks! Pedro will be in touch to book your 5-day build.' : 'Approve it before the timer ends and Pedro will book your 5-day build.';
+    $('approve').hidden = ok; $('approve').textContent = 'Approve this demo';
+    renderSite(true);
+  }
+  function boot(){
+    clearInterval(demoTimer); tickDemo(); demoTimer = setInterval(tickDemo, 1000);
+    $('demoChip').hidden = false;
+    if(project.liveUrl){ setupLive(); return; }
+    $('versions').hidden = false; $('verTag').hidden = false; $('filesSec').hidden = false; $('buildMeter').hidden = false;
+    hist=['home']; hi=0; setVersion(3);
+  }
+  /* Reopen the last project on reload (after everything above is set up). */
+  const saved = store.get('pw-code', null);
+  if(saved && PROJECTS[saved]) showApp(saved);
 })();
 </script>
