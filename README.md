@@ -14,4 +14,4 @@ The website for **pdscreative.com** (Pedro de Sousa: web design, photography and
 
 ## Forms
 The project brief form (homepage) and the quote form (pricing) send through Formspree.
-Set `FORM_ENDPOINT` near the bottom of `index.html` and `pricing.html` to the Formspree form address.
+`FORM_ENDPOINT` is set in `index.html` (Project brief form) and `pricing.html` (Quote request form). Submissions are emailed to pds.creativedesign@gmail.com.
