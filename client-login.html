@@ -452,6 +452,8 @@ label{display:grid;gap:7px}
     'VERVE-48K7': { name:'Verve Display', type:'Free website demo', initials:'VD', liveUrl:'https://verve-display.vercel.app/work', sharedAt:'2026-11-03T15:56:00Z' }
   };
   const DEMO_HOURS = 48;
+  /* Demo approvals are emailed to pds.creativedesign@gmail.com via Formspree. */
+  const APPROVAL_ENDPOINT = 'https://formspree.io/f/mzeewrwl';
   const fmtDate = t => new Date(t).toLocaleString('en-GB',{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit',timeZone:'Europe/London'}).replace(',', '');
   function demoWindow(code){
     const p = PROJECTS[code];
@@ -872,7 +874,22 @@ label{display:grid;gap:7px}
     }
   }
   $('approve').addEventListener('click', ()=>{
-    if(project.liveUrl){ approved['live-'+project.code]=true; store.set('pw-approved',approved); setupLive(); toast('Demo approved'); return; }
+    if(project.liveUrl){
+      const btn = $('approve'); btn.disabled = true; btn.textContent = 'Sending…';
+      const mine = comments.filter(c=>c.proj===project.code && !c.resolved).map((c,i)=>(i+1)+'. '+c.text).join('\n');
+      const f = new FormData();
+      f.set('_subject', 'Demo approved: '+project.name);
+      f.set('project', project.name);
+      f.set('access_code', project.code);
+      f.set('approved_at', new Date().toLocaleString('en-GB',{dateStyle:'full',timeStyle:'short',timeZone:'Europe/London'}));
+      f.set('demo_locks_at', fmtDate(demo.end));
+      f.set('demo_url', project.liveUrl);
+      f.set('client_comments', mine || 'No open comments');
+      fetch(APPROVAL_ENDPOINT, {method:'POST', headers:{'Accept':'application/json'}, body:f})
+        .then(r=>{ if(!r.ok) throw new Error(r.status); approved['live-'+project.code]=true; store.set('pw-approved',approved); setupLive(); toast('Demo approved. Pedro has been notified'); })
+        .catch(()=>{ btn.disabled = false; btn.textContent = 'Approve this demo'; $('apText').textContent = 'That didn\'t send. Please try again, or email pedro.de.sousa@hotmail.co.uk to approve.'; });
+      return;
+    }
     approved[3]=true; store.set('pw-approved',approved); renderApproval(); toast('v3 approved');
   });
 
@@ -899,7 +916,7 @@ label{display:grid;gap:7px}
     $('approveBox').classList.toggle('done', ok);
     $('apTitle').textContent = ok ? 'Demo approved' : 'Love your demo?';
     $('apPill').className = 'pill '+(ok?'ok':'wait'); $('apPill').innerHTML = '<i></i>'+(ok?'Approved':'Waiting');
-    $('apText').textContent = ok ? 'Thanks! Pedro will be in touch to book your 5-day build.' : 'Approve it before the timer ends and Pedro will book your 5-day build.';
+    $('apText').textContent = ok ? 'Thanks! Pedro has been notified and will be in touch to book your 5-day build.' : 'Approve it before the timer ends and Pedro will book your 5-day build.';
     $('approve').hidden = ok; $('approve').textContent = 'Approve this demo';
     renderSite(true);
   }
