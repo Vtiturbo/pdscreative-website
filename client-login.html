@@ -554,7 +554,12 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
     ['7. Law', 'This agreement is governed by the law of England and Wales, and the courts of England and Wales have exclusive jurisdiction over any dispute.'],
     ['Accepting', 'By entering your name, ticking both boxes and pressing "Agree and view demo", you confirm that you have read and agree to this agreement, and that you are authorised to agree to it on behalf of the company named.']
   ];
-  const needsAgreement = code => !PROJECTS[code].rolling && !store.get('pw-agreed-'+code, false);
+  /* Only an acceptance of the current wording counts; a change of AGREEMENT_VERSION asks everyone again. */
+  const needsAgreement = code => {
+    if(PROJECTS[code].rolling) return false;
+    const rec = store.get('pw-agreed-'+code, null);
+    return !(rec && rec.version === AGREEMENT_VERSION && rec.name);
+  };
   let agreeCode = null;
   function showAgreement(code){
     agreeCode = code; const p = PROJECTS[code];
@@ -621,6 +626,7 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
   }
   function showApp(code){
     if(Date.now() >= demoWindow(code).end){ lockOut(code); return; }
+    if(needsAgreement(code)){ showAgreement(code); return; }
     $('lockBox').hidden = true;
     project = PROJECTS[code]; project.code = code; demo = demoWindow(code);
     $('projType').textContent = project.type; $('projInit').textContent = project.initials;
