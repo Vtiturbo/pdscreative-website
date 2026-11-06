@@ -95,6 +95,7 @@ label{display:grid;gap:7px}
 .ag-terms p{margin:0}
 .ag-terms .ver{color:var(--dim);font-size:.8rem}
 .ag-form{display:grid;gap:14px}
+#agCompany{opacity:.75;cursor:not-allowed;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239CA2B2' stroke-width='2'%3E%3Crect x='5' y='11' width='14' height='9' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px}
 .ag-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .ag-check{display:flex;gap:12px;align-items:flex-start;cursor:pointer;font-size:.93rem;line-height:1.5}
 .ag-check input{width:20px;height:20px;flex:none;margin-top:2px;accent-color:var(--accent)}
@@ -379,7 +380,7 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
       <form class="ag-form" id="agForm" novalidate>
         <div class="ag-row">
           <label><span class="small">Your full name</span><input id="agName" autocomplete="name" placeholder="e.g. Cameron Smith"></label>
-          <label><span class="small">Company</span><input id="agCompany" autocomplete="organization"></label>
+          <label><span class="small">Company</span><input id="agCompany" readonly tabindex="-1" aria-readonly="true" title="Set by PDS Creative for this demo"></label>
         </div>
         <label class="ag-check"><input type="checkbox" id="agRead"><span>I have read and agree to the Demo Viewing &amp; Copyright Agreement.</span></label>
         <label class="ag-check"><input type="checkbox" id="agAuth"><span id="agAuthText">I'm authorised to agree on behalf of my company.</span></label>
@@ -576,13 +577,14 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
     window.scrollTo(0,0); $('agTerms').scrollTop = 0;
   }
   function agValidate(){ $('agSubmit').disabled = !($('agName').value.trim().length > 2 && $('agCompany').value.trim() && $('agRead').checked && $('agAuth').checked); }
-  ['agName','agCompany'].forEach(id=>$(id).addEventListener('input', agValidate));
+  $('agName').addEventListener('input', agValidate);
   ['agRead','agAuth'].forEach(id=>$(id).addEventListener('change', agValidate));
   $('agBack').addEventListener('click', ()=>{ $('agree').hidden = true; $('login').hidden = false; store.set('pw-code', null); $('lCode').value=''; });
   $('agForm').addEventListener('submit', e=>{
     e.preventDefault();
     const code = agreeCode, p = PROJECTS[code];
-    const name = $('agName').value.trim(), company = $('agCompany').value.trim();
+    /* The company always comes from the project, never from what's typed or edited in the page. */
+    const name = $('agName').value.trim(), company = p.name; $('agCompany').value = company;
     if(!(name.length > 2 && company && $('agRead').checked && $('agAuth').checked)){ $('agErr').textContent = 'Enter your full name and company, and tick both boxes to continue.'; return; }
     if(Date.now() >= demoWindow(code).end){ $('agree').hidden = true; lockOut(code); return; }
     const when = new Date().toLocaleString('en-GB',{dateStyle:'full',timeStyle:'long',timeZone:'Europe/London'});
