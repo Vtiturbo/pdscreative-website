@@ -12,7 +12,8 @@ The website for **pdscreative.com** (Pedro de Sousa: web design, photography and
 - `client-login.html` is the client portal. It's hidden from search engines.
   - Clients are listed in `PROJECTS` near the bottom of the file (access code, name, live demo URL, `sharedAt`).
   - Every free demo locks 48 hours after `sharedAt`. The demo site itself must also be locked (see verve-display `src/lib/demo.ts`).
-  - Codes: NORTH-2026 (example project), VERVE-48K7 (Verve Display, locks 5 Nov 2026 3:56pm).
+  - Codes: NORTH-2026 (example project), VERVE-48K7 (Verve Display, expired 5 Nov 2026), VERVE-RV11 (Verve Display reopened, locks 8 Nov 2026 1:15pm).
+  - Real client codes show the Demo Viewing & Copyright Agreement first; acceptance is emailed to pds.creativedesign@gmail.com.
 - `PDS-Pricing-and-Packages.pdf` is the downloadable price list.
 
 ## Forms
