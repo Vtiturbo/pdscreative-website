@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Book a call | PDS Creative</title>
+<meta name="description" content="Book a free 15-minute call with Pedro de Sousa at PDS Creative to talk about your free website demo.">
+<link rel="canonical" href="https://pdscreative.com/book-a-call.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PDS Creative">
+<meta property="og:title" content="Book a call | PDS Creative">
+<meta property="og:description" content="Book a free 15-minute call to talk about your free, custom-coded website demo.">
+<meta property="og:url" content="https://pdscreative.com/book-a-call.html">
+<meta name="theme-color" content="#0E1015">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --void:#0E1015;--deck:#14171E;--raise:#1A1E27;
+  --line:rgba(200,206,224,.10);--line-strong:rgba(200,206,224,.22);
+  --fg:#EEF0F5;--muted:#9CA2B2;--dim:#666C7C;--ice:#9DB1FF;--rose:#E8B07A;--ok:#7FD3A6;
+  --f-display:"Instrument Sans",system-ui,sans-serif;--f-body:"Hanken Grotesk",system-ui,sans-serif;--f-mono:"JetBrains Mono",ui-monospace,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background:radial-gradient(60% 40% at 85% 0%,rgba(157,177,255,.10),transparent 70%),var(--void);color:var(--fg);font:400 1rem/1.6 var(--f-body);padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+[hidden]{display:none!important}
+a{color:inherit}
+.wrap{width:min(1080px,100% - 32px);margin-inline:auto}
+header{border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 1.05rem var(--f-display);letter-spacing:-.01em}
+.brand span{font-weight:500;color:var(--muted)}
+.back{color:var(--muted);text-decoration:none;font-size:.92rem}
+.back:hover{color:var(--fg)}
+main .wrap>*{min-width:0}
+#bookForm,#bookForm>div,#bookForm>div>div{min-width:0}
+main .wrap{padding-block:clamp(36px,6vw,72px) 72px;display:grid;gap:36px;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:start}
+@media (max-width:860px){main .wrap{grid-template-columns:minmax(0,1fr)}}
+.mono{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.04em;color:var(--ice)}
+h1{font:600 clamp(2.1rem,4.6vw,3.3rem)/1.04 var(--f-display);letter-spacing:-.035em;margin:10px 0 16px}
+h1 em{font-style:normal;color:var(--ice)}
+.lede{color:var(--muted);margin:0 0 22px;max-width:46ch}
+.facts{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.facts li{display:flex;gap:12px;align-items:flex-start;color:#C9CDD8}
+.facts svg{flex:none;margin-top:3px}
+.panel{background:var(--deck);border:1px solid var(--line);border-radius:22px;padding:clamp(18px,3vw,28px);display:grid;gap:22px;min-width:0}
+.step-h{display:flex;align-items:baseline;gap:10px;margin:0 0 10px;font:600 1.05rem var(--f-display)}
+.step-h b{font:500 .75rem var(--f-mono);color:var(--void);background:var(--ice);border-radius:999px;width:22px;height:22px;display:inline-grid;place-items:center;flex:none}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.opt span{display:block;border:1px solid var(--line-strong);border-radius:12px;padding:10px 12px;text-align:center;font-weight:500;transition:border-color .15s,background .15s}
+.opt input:checked+span{border-color:var(--ice);background:rgba(157,177,255,.10);color:#fff}
+.opt input:focus-visible+span{outline:2px solid var(--ice);outline-offset:2px}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.day{flex:none;scroll-snap-align:start;width:74px}
+.day span{padding:10px 6px;line-height:1.25}
+.day small{display:block;font:500 .7rem var(--f-mono);color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.day strong{display:block;font:600 1.25rem var(--f-display)}
+.times{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.times .opt span{padding:9px 6px;font-variant-numeric:tabular-nums}
+.hint{color:var(--dim);font-size:.85rem;margin:8px 0 0}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.fields{grid-template-columns:1fr}}
+.full{grid-column:1/-1}
+label.f{display:grid;gap:6px;font-size:.88rem;color:var(--muted)}
+label.f input,label.f textarea{width:100%;font:inherit;color:var(--fg);background:var(--raise);border:1px solid var(--line-strong);border-radius:12px;padding:11px 13px}
+label.f textarea{min-height:92px;resize:vertical}
+label.f input:focus,label.f textarea:focus{outline:none;border-color:var(--ice)}
+.summary{border:1px dashed var(--line-strong);border-radius:14px;padding:12px 14px;color:#C9CDD8;font-size:.95rem}
+.summary b{color:var(--fg)}
+.btn{appearance:none;border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:50px;padding:0 26px;border-radius:999px;background:var(--fg);color:var(--void);font:600 1rem var(--f-display);text-decoration:none;width:100%}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--line-strong);width:auto}
+.err{color:#F2A3A3;font-size:.9rem;margin:0}
+.fine{color:var(--dim);font-size:.8rem;margin:0}
+.done{text-align:center;display:grid;gap:14px;justify-items:center;padding-block:20px}
+.done .tick{width:60px;height:60px;border-radius:50%;background:rgba(127,211,166,.12);border:1px solid rgba(127,211,166,.5);display:grid;place-items:center}
+.done h2{font:600 1.7rem var(--f-display);letter-spacing:-.02em;margin:0}
+.done p{margin:0;color:var(--muted);max-width:44ch}
+.cal{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+footer{border-top:1px solid var(--line);color:var(--dim);font-size:.85rem}
+footer .wrap{padding-block:22px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between}
+footer a{color:var(--muted);text-decoration:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="/"><svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke-linecap="round" aria-hidden="true"><path stroke="#9DB1FF" stroke-width="2.4" d="M2.5 9V5.5a3 3 0 0 1 3-3H9M23 2.5h3.5a3 3 0 0 1 3 3V9M29.5 23v3.5a3 3 0 0 1-3 3H23M9 29.5H5.5a3 3 0 0 1-3-3V23"/><path stroke="#EEF0F5" stroke-width="2.8" stroke-linejoin="round" d="M11.5 23.5v-15h5.2a4.6 4.6 0 0 1 0 9.2h-5.2"/><circle cx="21.6" cy="22" r="2" fill="#9DB1FF"/></svg>PDS <span>Creative</span></a>
+    <a class="back" href="/">Back to the website</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section>
+      <span class="mono">Free 15-minute call</span>
+      <h1>Let's talk about your <em>free website demo.</em></h1>
+      <p class="lede">Pick a time that suits you. We'll chat about your business, what you'd like your website to do, and I'll get started on your free, custom-coded demo.</p>
+      <ul class="facts">
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9DB1FF" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>15 minutes</b>, by phone or video call</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9DB1FF" stroke-width="2"><path d="M5 12l4 4 10-10"/></svg><span>No obligation and no sales pressure</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9DB1FF" stroke-width="2"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg><span>You'll get a confirmation from Pedro by email</span></li>
+      </ul>
+    </section>
+
+    <section class="panel" id="panel">
+      <form id="bookForm" novalidate>
+        <div style="display:grid;gap:24px">
+          <div>
+            <p class="step-h"><b>1</b>How should we talk?</p>
+            <div class="seg">
+              <label class="opt"><input type="radio" name="call_type" value="Phone call" checked><span>Phone call</span></label>
+              <label class="opt"><input type="radio" name="call_type" value="Video call"><span>Video call</span></label>
+            </div>
+          </div>
+
+          <div>
+            <p class="step-h"><b>2</b>Pick a day</p>
+            <div class="days" id="days" role="radiogroup" aria-label="Day"></div>
+          </div>
+
+          <div>
+            <p class="step-h"><b>3</b>Pick a time <span class="mono" style="color:var(--dim)">UK time</span></p>
+            <div class="times" id="times" role="radiogroup" aria-label="Time"></div>
+            <p class="hint" id="timeHint">Choose a day first.</p>
+          </div>
+
+          <div>
+            <p class="step-h"><b>4</b>Your details</p>
+            <div class="fields">
+              <label class="f">Your name<input id="fName" name="name" autocomplete="name" required></label>
+              <label class="f">Company<input id="fCompany" name="company" autocomplete="organization" required></label>
+              <label class="f">Email<input id="fEmail" name="email" type="email" autocomplete="email" required></label>
+              <label class="f">Phone<input id="fPhone" name="phone" type="tel" autocomplete="tel" required></label>
+              <label class="f full">What does your business do? <span style="color:var(--dim)">(optional)</span><textarea id="fAbout" name="about" placeholder="A line or two about your business and what you'd like your website to do"></textarea></label>
+            </div>
+          </div>
+
+          <div class="summary" id="summary" hidden></div>
+          <p class="err" id="err" hidden></p>
+          <button class="btn" id="submit" type="submit" disabled>Book my call</button>
+          <p class="fine">Your details are only used to arrange this call and your free demo, and are never shared.</p>
+        </div>
+      </form>
+
+      <div class="done" id="done" hidden>
+        <div class="tick"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7FD3A6" stroke-width="2.4"><path d="M5 12l4 4 10-10"/></svg></div>
+        <h2>Your call is requested</h2>
+        <p id="doneText"></p>
+        <div class="cal">
+          <a class="btn ghost" id="icsLink" download="PDS-Creative-call.ics">Add to calendar</a>
+          <a class="btn ghost" id="gcalLink" target="_blank" rel="noopener">Add to Google Calendar</a>
+        </div>
+        <p class="fine">Need to change it? Email <a href="mailto:pedro.de.sousa@hotmail.co.uk">pedro.de.sousa@hotmail.co.uk</a> or call 07356 203744.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© PDS Creative · Pedro de Sousa</span>
+    <span><a href="/">pdscreative.com</a> · <a href="mailto:pedro.de.sousa@hotmail.co.uk">pedro.de.sousa@hotmail.co.uk</a> · <a href="tel:+447356203744">07356 203744</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* Bookings are emailed to Pedro through Formspree (same account as the homepage brief form). */
+  const FORM_ENDPOINT = 'https://formspree.io/f/mzeewrwl';
+  /* Availability: weekdays, 9:30am to 5:00pm UK time, 30-minute slots, next 15 working days. */
+  const AVAIL = {startHour:9, startMin:30, endHour:17, endMin:0, stepMin:30, workingDays:15, minNoticeHours:3, callMinutes:15};
+
+  const $ = id => document.getElementById(id);
+  const TZ = 'Europe/London';
+  let day = null, time = null;
+
+  /* Today's date in the UK, as y/m/d numbers. */
+  function ukParts(d){
+    const p = {}; new Intl.DateTimeFormat('en-GB',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(d).forEach(x=>p[x.type]=x.value);
+    return {y:+p.year,m:+p.month,d:+p.day,h:+p.hour,min:+p.minute};
+  }
+  /* Convert a UK wall-clock time to a real moment (handles GMT/BST). */
+  function ukToDate(y,m,d,h,min){
+    const guess = Date.UTC(y,m-1,d,h,min);
+    const p = ukParts(new Date(guess));
+    const shown = Date.UTC(p.y,p.m-1,p.d,p.h,p.min);
+    return new Date(guess - (shown - guess));
+  }
+  const pad = n => String(n).padStart(2,'0');
+  const keyOf = o => o.y+'-'+pad(o.m)+'-'+pad(o.d);
+
+  function buildDays(){
+    const t = ukParts(new Date()); const out = [];
+    let cur = new Date(Date.UTC(t.y,t.m-1,t.d));
+    while(out.length < AVAIL.workingDays){
+      const wd = cur.getUTCDay();
+      if(wd!==0 && wd!==6){
+        const o = {y:cur.getUTCFullYear(),m:cur.getUTCMonth()+1,d:cur.getUTCDate()};
+        if(slotsFor(o).length) out.push(o);
+      }
+      cur = new Date(cur.getTime()+86400000);
+      if(out.length===0 && cur - Date.UTC(t.y,t.m-1,t.d) > 40*86400000) break;
+    }
+    const wrap = $('days'); wrap.innerHTML = '';
+    out.forEach(o=>{
+      const dt = new Date(Date.UTC(o.y,o.m-1,o.d,12));
+      const lab = document.createElement('label'); lab.className = 'opt day';
+      lab.innerHTML = '<input type="radio" name="day_pick" value="'+keyOf(o)+'"><span><small>'+dt.toLocaleDateString('en-GB',{weekday:'short',timeZone:'UTC'})+'</small><strong>'+o.d+'</strong><small>'+dt.toLocaleDateString('en-GB',{month:'short',timeZone:'UTC'})+'</small></span>';
+      lab.querySelector('input').addEventListener('change',()=>{ day = o; time = null; buildTimes(); update(); });
+      wrap.appendChild(lab);
+    });
+  }
+  function slotsFor(o){
+    const out = []; const earliest = Date.now() + AVAIL.minNoticeHours*3600000;
+    for(let mins = AVAIL.startHour*60+AVAIL.startMin; mins <= AVAIL.endHour*60+AVAIL.endMin; mins += AVAIL.stepMin){
+      const h = Math.floor(mins/60), m = mins%60;
+      const at = ukToDate(o.y,o.m,o.d,h,m);
+      if(at.getTime() >= earliest) out.push({h,m,at});
+    }
+    return out;
+  }
+  function label12(h,m){ const ap = h<12?'am':'pm'; const hh = h%12||12; return hh+':'+pad(m)+ap; }
+  function buildTimes(){
+    const wrap = $('times'); wrap.innerHTML = '';
+    if(!day){ $('timeHint').hidden = false; return; }
+    $('timeHint').hidden = true;
+    slotsFor(day).forEach(s=>{
+      const lab = document.createElement('label'); lab.className = 'opt';
+      lab.innerHTML = '<input type="radio" name="time_pick" value="'+pad(s.h)+':'+pad(s.m)+'"><span>'+label12(s.h,s.m)+'</span>';
+      lab.querySelector('input').addEventListener('change',()=>{ time = s; update(); });
+      wrap.appendChild(lab);
+    });
+  }
+  function dayLabel(o){ return new Date(Date.UTC(o.y,o.m-1,o.d,12)).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'}); }
+  const callType = () => document.querySelector('input[name="call_type"]:checked').value;
+  function valid(){
+    const email = $('fEmail').value.trim();
+    return day && time && $('fName').value.trim() && $('fCompany').value.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && $('fPhone').value.replace(/\D/g,'').length >= 7;
+  }
+  function update(){
+    if(day && time){
+      $('summary').hidden = false;
+      $('summary').innerHTML = '<b>'+callType()+'</b> on <b>'+dayLabel(day)+'</b> at <b>'+label12(time.h,time.m)+'</b> UK time (15 minutes)';
+    } else $('summary').hidden = true;
+    $('submit').disabled = !valid();
+  }
+  ['fName','fCompany','fEmail','fPhone'].forEach(id=>$(id).addEventListener('input',update));
+  document.querySelectorAll('input[name="call_type"]').forEach(r=>r.addEventListener('change',update));
+
+  /* Prefill from the outreach email link, e.g. ?company=Bright%20Bean%20Coffee%20Ltd&name=Sarah */
+  const q = new URLSearchParams(location.search);
+  if(q.get('company')) $('fCompany').value = q.get('company').slice(0,120);
+  if(q.get('name')) $('fName').value = q.get('name').slice(0,80);
+
+  function icsStamp(d){ return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,''); }
+
+  $('bookForm').addEventListener('submit', e=>{
+    e.preventDefault(); if(!valid()) return;
+    const start = time.at, end = new Date(start.getTime()+AVAIL.callMinutes*60000);
+    const when = dayLabel(day)+' at '+label12(time.h,time.m)+' (UK time)';
+    const name = $('fName').value.trim(), company = $('fCompany').value.trim();
+    const fd = new FormData();
+    fd.append('_subject','Call booked: '+company+', '+when);
+    fd.append('form','Book a call');
+    fd.append('call_type',callType());
+    fd.append('when',when);
+    fd.append('start_utc',start.toISOString());
+    fd.append('name',name);
+    fd.append('company',company);
+    fd.append('email',$('fEmail').value.trim());
+    fd.append('phone',$('fPhone').value.trim());
+    fd.append('about',$('fAbout').value.trim());
+    fd.append('source', q.get('src') || (q.get('company') ? 'outreach email' : 'website'));
+    $('submit').disabled = true; $('submit').textContent = 'Booking...'; $('err').hidden = true;
+    fetch(FORM_ENDPOINT,{method:'POST',headers:{'Accept':'application/json'},body:fd})
+      .then(r=>{ if(!r.ok) throw new Error(r.status); })
+      .then(()=>{
+        $('bookForm').hidden = true; $('done').hidden = false;
+        $('doneText').textContent = 'Thanks '+name.split(' ')[0]+'. Your '+callType().toLowerCase()+' is requested for '+when+'. Pedro will confirm by email shortly.';
+        const title = 'PDS Creative call with Pedro de Sousa';
+        const details = callType()+' about your free website demo for '+company+'. Questions? pedro.de.sousa@hotmail.co.uk / 07356 203744';
+        const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//PDS Creative//Book a call//EN','BEGIN:VEVENT','UID:'+Date.now()+'@pdscreative.com','DTSTAMP:'+icsStamp(new Date()),'DTSTART:'+icsStamp(start),'DTEND:'+icsStamp(end),'SUMMARY:'+title,'DESCRIPTION:'+details.replace(/,/g,'\\,'),'END:VEVENT','END:VCALENDAR'].join('\r\n');
+        $('icsLink').href = URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));
+        $('gcalLink').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(title)+'&dates='+icsStamp(start)+'/'+icsStamp(end)+'&details='+encodeURIComponent(details);
+        window.scrollTo({top:$('panel').offsetTop-20,behavior:'smooth'});
+      })
+      .catch(()=>{
+        $('err').hidden = false;
+        $('err').textContent = "Sorry, that didn't go through. Please try again, or email pedro.de.sousa@hotmail.co.uk.";
+        $('submit').disabled = false; $('submit').textContent = 'Book my call';
+      });
+  });
+
+  buildDays(); buildTimes(); update();
+})();
+</script>
+</body>
+</html>
