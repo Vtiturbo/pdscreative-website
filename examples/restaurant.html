@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Saltwater Kitchen · Example restaurant website by PDS Creative</title>
+<meta name="description" content="An example restaurant website design by PDS Creative, with online table booking, menus and opening times.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--ink:#16231F;--cream:#F4EEE3;--sea:#2F5D57;--coral:#E07A5F;--sand:#E6D9C3;--muted:#5D6B66}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:400 1rem/1.6 Inter,system-ui,sans-serif}
+a{color:inherit}.w{width:min(1120px,100% - 40px);margin-inline:auto}
+.ribbon{background:var(--ink);color:#F4EEE3;font-size:.78rem;text-align:center;padding:7px 12px}
+.ribbon a{color:#F2B8A5}
+header{position:sticky;top:0;z-index:5;background:rgba(244,238,227,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(22,35,31,.1)}
+header .w{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.logo{font:600 1.35rem Fraunces,serif;text-decoration:none;letter-spacing:-.01em}.logo span{color:var(--coral)}
+nav{display:flex;gap:26px;font-size:.92rem}nav a{text-decoration:none;color:var(--muted)}nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 22px;border-radius:999px;background:var(--ink);color:var(--cream);text-decoration:none;font-weight:600;border:0;font-size:.95rem;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+@media (max-width:760px){nav{display:none}}
+.hero{position:relative;overflow:hidden;padding:clamp(56px,9vw,110px) 0}
+.hero .w{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+@media (max-width:860px){.hero .w{grid-template-columns:1fr}}
+.kicker{font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sea);font-weight:600}
+h1{font:600 clamp(2.6rem,6.5vw,5rem)/1 Fraunces,serif;letter-spacing:-.03em;margin:14px 0 18px}
+h1 em{font-style:italic;color:var(--sea)}
+.lede{font-size:1.1rem;color:var(--muted);max-width:46ch}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.plate{aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 50%,#fff 0 47%,var(--sand) 48% 60%,#fff 61% 100%);box-shadow:0 30px 60px -20px rgba(22,35,31,.35);position:relative;max-width:460px;justify-self:center;width:100%}
+.plate::before{content:"";position:absolute;inset:26%;border-radius:50%;background:radial-gradient(circle at 35% 40%,var(--coral) 0 18%,transparent 19%),radial-gradient(circle at 62% 58%,#9BBF8A 0 16%,transparent 17%),radial-gradient(circle at 50% 30%,#F2C14E 0 9%,transparent 10%),radial-gradient(circle at 40% 66%,#F6E7CB 0 14%,transparent 15%),#F8F3EA}
+.badge{position:absolute;right:4%;bottom:10%;background:var(--coral);color:#fff;border-radius:50%;width:112px;height:112px;display:grid;place-items:center;text-align:center;font:600 .9rem/1.2 Fraunces,serif;transform:rotate(-10deg)}
+.strip{background:var(--sea);color:var(--cream);padding:18px 0;font-size:.95rem}
+.strip .w{display:flex;flex-wrap:wrap;gap:10px 34px;justify-content:center}
+section.s{padding:clamp(56px,8vw,96px) 0}
+h2{font:600 clamp(2rem,4vw,3rem)/1.05 Fraunces,serif;letter-spacing:-.02em;margin:10px 0 14px}
+.menu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:34px}
+@media (max-width:860px){.menu{grid-template-columns:1fr}}
+.menu .col{background:#fff;border-radius:22px;padding:26px;border:1px solid rgba(22,35,31,.08)}
+.menu h3{font:600 1.3rem Fraunces,serif;margin:0 0 14px}
+.dish{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px dashed rgba(22,35,31,.15)}
+.dish b{display:block;font-weight:600}.dish span{color:var(--muted);font-size:.88rem}.dish i{font-style:normal;font-weight:600;white-space:nowrap}
+.book{background:var(--ink);color:var(--cream);border-radius:28px;padding:clamp(26px,5vw,52px);display:grid;grid-template-columns:1fr 1fr;gap:34px}
+@media (max-width:860px){.book{grid-template-columns:1fr}}
+.book .lede{color:#B9C4BF}
+form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+form label{display:grid;gap:6px;font-size:.82rem;color:#B9C4BF}
+form .full{grid-column:1/-1}
+input,select{font:inherit;height:46px;border-radius:12px;border:1px solid rgba(244,238,227,.2);background:rgba(244,238,227,.06);color:var(--cream);padding:0 12px;width:100%}
+select option{color:#000}
+.times{display:flex;flex-wrap:wrap;gap:8px}
+.times button{height:38px;padding:0 14px;border-radius:999px;border:1px solid rgba(244,238,227,.25);background:transparent;color:var(--cream);cursor:pointer;font:inherit;font-size:.88rem}
+.times button[aria-pressed=true]{background:var(--coral);border-color:var(--coral)}
+.book .btn{background:var(--coral);width:100%}
+.ok{grid-column:1/-1;background:rgba(155,191,138,.15);border:1px solid rgba(155,191,138,.5);border-radius:12px;padding:12px;font-size:.92rem}
+.info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+@media (max-width:760px){.info{grid-template-columns:1fr}}
+.info div{border-top:2px solid var(--ink);padding-top:14px}.info b{font:600 1.1rem Fraunces,serif}.info p{color:var(--muted);margin:8px 0 0}
+footer{border-top:1px solid rgba(22,35,31,.12);padding:28px 0;color:var(--muted);font-size:.85rem}
+footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+</style>
+</head>
+<body>
+<div class="ribbon">Example design by PDS Creative. Saltwater Kitchen is a fictional business. <a href="/#contact">Get a free demo for your business →</a></div>
+<header><div class="w"><a class="logo" href="#">Saltwater<span>.</span></a>
+  <nav><a href="#menu">Menu</a><a href="#book">Book a table</a><a href="#visit">Visit</a></nav>
+  <a class="btn" href="#book">Book a table</a></div></header>
+
+<section class="hero"><div class="w">
+  <div>
+    <span class="kicker">Seasonal seafood · Brighton seafront</span>
+    <h1>Caught this morning. <em>On your plate tonight.</em></h1>
+    <p class="lede">Small plates, wood-fired fish and natural wines, cooked from whatever the boats bring in. Twelve tables, one kitchen, no fuss.</p>
+    <div class="cta"><a class="btn" href="#book">Book a table</a><a class="btn ghost" href="#menu">See tonight's menu</a></div>
+  </div>
+  <div class="plate" role="img" aria-label="Illustration of a seasonal seafood plate"><span class="badge">Tasting menu<br>Fri &amp; Sat</span></div>
+</div></section>
+
+<div class="strip"><div class="w"><span>★ 4.8 from 640 Google reviews</span><span>Open Wed–Sun</span><span>Private dining for up to 18</span><span>Walk-ins at the bar</span></div></div>
+
+<section class="s" id="menu"><div class="w">
+  <span class="kicker">The menu</span><h2>Changes with the tide.</h2>
+  <p class="lede">A taste of this week. Ask us about allergies; we cook everything to order.</p>
+  <div class="menu">
+    <div class="col"><h3>Small plates</h3>
+      <div class="dish"><div><b>Rock oysters</b><span>Shallot vinegar, lemon</span></div><i>£3.5</i></div>
+      <div class="dish"><div><b>Crab on toast</b><span>Brown butter, pickled chilli</span></div><i>£11</i></div>
+      <div class="dish"><div><b>Cured sea bream</b><span>Blood orange, fennel</span></div><i>£10</i></div></div>
+    <div class="col"><h3>From the fire</h3>
+      <div class="dish"><div><b>Whole grilled plaice</b><span>Seaweed butter, samphire</span></div><i>£24</i></div>
+      <div class="dish"><div><b>Monkfish skewers</b><span>Romesco, charred leeks</span></div><i>£21</i></div>
+      <div class="dish"><div><b>Hake &amp; mussels</b><span>Cider, smoked bacon, parsley</span></div><i>£22</i></div></div>
+    <div class="col"><h3>Something sweet</h3>
+      <div class="dish"><div><b>Burnt honey tart</b><span>Clotted cream</span></div><i>£8</i></div>
+      <div class="dish"><div><b>Rhubarb &amp; custard</b><span>Shortbread crumb</span></div><i>£7.5</i></div>
+      <div class="dish"><div><b>Cheese of the week</b><span>Oatcakes, chutney</span></div><i>£9</i></div></div>
+  </div>
+</div></section>
+
+<section class="s" id="book" style="padding-top:0"><div class="w"><div class="book">
+  <div><span class="kicker" style="color:#F2B8A5">Online booking</span><h2>Book your table in 30 seconds.</h2>
+    <p class="lede">Pick a date, a time and how many of you, and we'll send your confirmation straight away. Groups of 9 or more, give us a call.</p></div>
+  <form id="bk">
+    <label>Date<input type="date" id="d" required></label>
+    <label>Guests<select id="g"><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></label>
+    <div class="full"><label>Time</label><div class="times" id="t"></div></div>
+    <label class="full">Name<input id="n" autocomplete="name" placeholder="Your name"></label>
+    <div class="full"><button class="btn" type="submit">Book my table</button></div>
+    <div class="ok" id="ok" hidden></div>
+  </form>
+</div></div></section>
+
+<section class="s" id="visit" style="padding-top:0"><div class="w info">
+  <div><b>Find us</b><p>14 Kings Road Arches<br>Brighton BN1 2LN</p></div>
+  <div><b>Opening times</b><p>Wed–Thu 5–10pm<br>Fri–Sat 12–3pm, 5–11pm<br>Sun 12–5pm</p></div>
+  <div><b>Get in touch</b><p>hello@saltwater.example<br>01273 000 000</p></div>
+</div></section>
+
+<footer><div class="w"><span>© Saltwater Kitchen (example)</span><span>Website, brand and photography by <a href="/">PDS Creative</a></span></div></footer>
+<script>
+(function(){
+  const t=document.getElementById('t');let pick='7:00pm';
+  ['5:30pm','6:00pm','6:30pm','7:00pm','7:30pm','8:00pm','8:30pm'].forEach(x=>{const b=document.createElement('button');b.type='button';b.textContent=x;b.setAttribute('aria-pressed',x===pick);b.onclick=()=>{pick=x;t.querySelectorAll('button').forEach(y=>y.setAttribute('aria-pressed',y===b))};t.appendChild(b)});
+  const d=document.getElementById('d');d.valueAsDate=new Date(Date.now()+86400000);
+  document.getElementById('bk').addEventListener('submit',e=>{e.preventDefault();const n=document.getElementById('n').value.trim()||'there';const ok=document.getElementById('ok');ok.hidden=false;ok.textContent='Thanks '+n+'! Table for '+document.getElementById('g').value+' on '+new Date(d.value).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})+' at '+pick+' (example only, no booking made).'});
+})();
+</script>
+</body>
+</html>

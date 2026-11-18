@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brickwell Builders · Example trades website by PDS Creative</title>
+<meta name="description" content="An example builder and trades website design by PDS Creative, with an instant quote request, projects and reviews.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#F3F2EF;--ink:#141414;--orange:#F26A1B;--steel:#2C333A;--muted:#5E6369;--line:#D9D7D1}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 Inter,system-ui,sans-serif}
+a{color:inherit}.w{width:min(1160px,100% - 40px);margin-inline:auto}
+.ribbon{background:var(--orange);color:#fff;font-size:.78rem;text-align:center;padding:7px 12px}.ribbon a{color:#fff;font-weight:600}
+header{background:var(--ink);color:#fff}
+header .w{display:flex;align-items:center;justify-content:space-between;height:70px;gap:16px}
+.logo{font:800 1.3rem Archivo,sans-serif;text-transform:uppercase;letter-spacing:.02em;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo i{width:26px;height:26px;background:var(--orange);display:inline-block;clip-path:polygon(0 100%,0 40%,50% 0,100% 40%,100% 100%)}
+nav{display:flex;gap:26px;font-size:.92rem}nav a{text-decoration:none;color:#C8CCD0}
+@media (max-width:760px){nav{display:none}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:50px;padding:0 24px;background:var(--orange);color:#fff;text-decoration:none;font:700 .95rem Archivo,sans-serif;text-transform:uppercase;letter-spacing:.04em;border:0;cursor:pointer}
+.btn.line{background:transparent;border:2px solid #fff}
+.hero{background:var(--ink);color:#fff;padding:clamp(48px,8vw,100px) 0;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;right:-10%;top:0;bottom:0;width:55%;background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 2px,transparent 2px 70px),repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 2px,transparent 2px 70px)}
+.hero .w{position:relative;display:grid;grid-template-columns:1.2fr .8fr;gap:44px;align-items:end}
+@media (max-width:860px){.hero .w{grid-template-columns:1fr}}
+h1{font:800 clamp(2.8rem,7vw,5.6rem)/.92 Archivo,sans-serif;text-transform:uppercase;letter-spacing:-.02em;margin:0 0 22px}
+h1 span{color:var(--orange)}
+.lede{color:#C8CCD0;font-size:1.1rem;max-width:48ch}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#333}
+.stats div{background:var(--steel);padding:20px}.stats b{display:block;font:800 2.2rem Archivo,sans-serif;color:var(--orange)}.stats span{color:#C8CCD0;font-size:.88rem}
+section.s{padding:clamp(56px,8vw,96px) 0}
+.kick{font:700 .8rem Archivo,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+h2{font:800 clamp(2rem,4.5vw,3.4rem)/.98 Archivo,sans-serif;text-transform:uppercase;margin:10px 0 16px;letter-spacing:-.01em}
+.svcs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;background:var(--line);border:2px solid var(--line);margin-top:30px}
+@media (max-width:900px){.svcs{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:520px){.svcs{grid-template-columns:1fr}}
+.svcs div{background:#fff;padding:24px}.svcs b{font:700 1.1rem Archivo,sans-serif;text-transform:uppercase;display:block;margin-bottom:6px}.svcs span{color:var(--muted);font-size:.92rem}
+.proj{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:30px}
+@media (max-width:860px){.proj{grid-template-columns:1fr}}
+.proj figure{margin:0;background:#fff}.proj .img{aspect-ratio:4/3;background:linear-gradient(135deg,#8E8A82,#C9C3B6)}
+.proj figure:nth-child(2) .img{background:linear-gradient(135deg,#55606B,#A7B1BA)}.proj figure:nth-child(3) .img{background:linear-gradient(135deg,#9B6A4E,#D9B79C)}
+.proj figcaption{padding:16px 18px}.proj b{font:700 1rem Archivo,sans-serif;text-transform:uppercase}.proj small{display:block;color:var(--muted)}
+.quote{background:var(--steel);color:#fff;padding:clamp(24px,5vw,52px);display:grid;grid-template-columns:1fr 1.1fr;gap:34px}
+@media (max-width:860px){.quote{grid-template-columns:1fr}}
+.quote .lede{color:#C8CCD0}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.opts button{height:42px;padding:0 16px;border:2px solid #56606A;background:transparent;color:#fff;cursor:pointer;font:600 .9rem Inter,sans-serif}
+.opts button[aria-pressed=true]{border-color:var(--orange);background:var(--orange)}
+.quote label{display:grid;gap:6px;font-size:.82rem;color:#C8CCD0;margin-bottom:12px}
+.quote input{font:inherit;height:48px;border:2px solid #56606A;background:transparent;color:#fff;padding:0 12px;width:100%}
+.ok{border:2px solid var(--orange);padding:12px;margin-top:12px}
+.revs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:26px}
+@media (max-width:860px){.revs{grid-template-columns:1fr}}
+.revs blockquote{margin:0;background:#fff;padding:22px;border-left:4px solid var(--orange)}.revs p{margin:0 0 12px}.revs cite{font-style:normal;color:var(--muted);font-size:.88rem}
+footer{background:var(--ink);color:#9AA0A6;padding:28px 0;font-size:.85rem}
+footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+</style>
+</head>
+<body>
+<div class="ribbon">Example design by PDS Creative. Brickwell Builders is a fictional business. <a href="/#contact">Get a free demo for your business →</a></div>
+<header><div class="w"><a class="logo" href="#"><i></i>Brickwell</a>
+  <nav><a href="#services">Services</a><a href="#projects">Projects</a><a href="#quote">Free quote</a></nav>
+  <a class="btn" href="#quote">Get a quote</a></div></header>
+
+<section class="hero"><div class="w">
+  <div>
+    <span class="kick">Builders · Hertfordshire &amp; North London</span>
+    <h1>Extensions, lofts &amp; <span>renovations</span> done right.</h1>
+    <p class="lede">Fixed quotes, a dedicated site manager and a 10-year workmanship guarantee. No surprises, no disappearing acts.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:26px"><a class="btn" href="#quote">Get a free quote</a><a class="btn line" href="#projects">See our work</a></div>
+  </div>
+  <div class="stats"><div><b>27</b><span>years building</span></div><div><b>480+</b><span>projects finished</span></div><div><b>4.9★</b><span>Checkatrade score</span></div><div><b>10yr</b><span>guarantee</span></div></div>
+</div></section>
+
+<section class="s" id="services"><div class="w">
+  <span class="kick">What we do</span><h2>From first sketch to final snag.</h2>
+  <div class="svcs">
+    <div><b>Extensions</b><span>Single and double storey, kitchen extensions and wraparounds.</span></div>
+    <div><b>Loft conversions</b><span>Dormer, hip-to-gable and mansard, with planning handled.</span></div>
+    <div><b>Renovations</b><span>Full refurbishments, structural work and knock-throughs.</span></div>
+    <div><b>Kitchens &amp; baths</b><span>Design, fit and finish under one fixed price.</span></div>
+  </div>
+</div></section>
+
+<section class="s" id="projects" style="padding-top:0"><div class="w">
+  <span class="kick">Recent projects</span><h2>Built to last.</h2>
+  <div class="proj">
+    <figure><div class="img" role="img" aria-label="Kitchen extension project"></div><figcaption><b>Kitchen extension</b><small>Harpenden · 9 weeks</small></figcaption></figure>
+    <figure><div class="img" role="img" aria-label="Loft conversion project"></div><figcaption><b>Dormer loft</b><small>Watford · 7 weeks</small></figcaption></figure>
+    <figure><div class="img" role="img" aria-label="Full renovation project"></div><figcaption><b>Victorian renovation</b><small>Muswell Hill · 14 weeks</small></figcaption></figure>
+  </div>
+</div></section>
+
+<section class="s" id="quote" style="padding-top:0"><div class="w"><div class="quote">
+  <div><span class="kick">Free, fixed quote</span><h2>Tell us about your project.</h2><p class="lede">Choose your project and we'll call you within one working day to book a free site visit.</p></div>
+  <form id="q">
+    <div class="opts" id="o"></div>
+    <label>Postcode<input id="pc" placeholder="e.g. AL5 2AB"></label>
+    <label>Phone<input id="ph" type="tel" placeholder="Your number"></label>
+    <button class="btn" type="submit" style="width:100%">Request my free quote</button>
+    <div class="ok" id="ok" hidden></div>
+  </form>
+</div></div></section>
+
+<section class="s" style="padding-top:0"><div class="w">
+  <span class="kick">Reviews</span><h2>Our customers say it best.</h2>
+  <div class="revs">
+    <blockquote><p>"On time, on budget, and the site was tidier than our house."</p><cite>Example review · Harpenden</cite></blockquote>
+    <blockquote><p>"Our loft is now the best room in the house. Brilliant team."</p><cite>Example review · Watford</cite></blockquote>
+    <blockquote><p>"Clear quote, no extras, and they answered every call."</p><cite>Example review · Barnet</cite></blockquote>
+  </div>
+</div></section>
+
+<footer><div class="w"><span>© Brickwell Builders (example)</span><span>Website, brand and photography by <a href="/">PDS Creative</a></span></div></footer>
+<script>
+(function(){
+  const o=document.getElementById('o');let pick='Extension';
+  ['Extension','Loft conversion','Renovation','Kitchen or bathroom','Something else'].forEach(x=>{const b=document.createElement('button');b.type='button';b.textContent=x;b.setAttribute('aria-pressed',x===pick);b.onclick=()=>{pick=x;o.querySelectorAll('button').forEach(y=>y.setAttribute('aria-pressed',y===b))};o.appendChild(b)});
+  document.getElementById('q').addEventListener('submit',e=>{e.preventDefault();const ok=document.getElementById('ok');ok.hidden=false;ok.textContent='Thanks! We\'ll call you about your '+pick.toLowerCase()+' within one working day (example only, nothing was sent).'});
+})();
+</script>
+</body>
+</html>
