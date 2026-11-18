@@ -1,4 +1,4 @@
-/* PDS Creative free demo lock for VØIDTHORN (3 variants).
+/* PDS Creative free demo lock for Knifeline (3 variants).
    Shared 18 Nov 2026, 6:15pm UK time. After EXPIRES every file in /demos/vt-q8m2x/ returns the "demo ended" page.
    To reopen, move EXPIRES (and sharedAt in client-login.html plus the demo pages). To release the paid site, delete this folder. */
 const EXPIRES = Date.parse('2026-11-20T18:15:00Z');

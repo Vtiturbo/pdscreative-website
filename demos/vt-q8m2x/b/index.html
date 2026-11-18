@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VØIDTHORN — Dark Art Tattoo Studio | Cybersigilism, Lettering, Black & Grey</title>
+<title>Knifeline — Dark Art Tattoo Studio | Cybersigilism, Lettering, Black & Grey</title>
 <meta name="description" content="Dark art tattoo studio in East London: cybersigilism and neo-tribal webs, gothic lettering, black & grey realism and fine-line illustrative tattoos, drawn freehand to your body.">
 <meta name="robots" content="noindex, nofollow">
 <style id="pds-demo-guard">
@@ -24,7 +24,7 @@ html.demo-protected img,html.demo-protected svg{-webkit-user-drag:none}
 <script>
 /* PDS Creative free demo guard. Locks 48 hours after it was shared. Set DEMO.enabled=false once the client has paid. */
 (function(){
-  var DEMO={enabled:true,client:'VØIDTHORN',studio:'PDS Creative',sharedAt:'2026-11-18T18:15:00Z',expiresAt:'2026-11-20T18:15:00Z',email:'pedro.de.sousa@hotmail.co.uk',phone:'07356 203744'};
+  var DEMO={enabled:true,client:'Knifeline',studio:'PDS Creative',sharedAt:'2026-11-18T18:15:00Z',expiresAt:'2026-11-20T18:15:00Z',email:'pedro.de.sousa@hotmail.co.uk',phone:'07356 203744'};
   if(!DEMO.enabled) return;
   var end=Date.parse(DEMO.expiresAt);
   function expired(){return Date.now()>=end}
@@ -134,7 +134,18 @@ nav.scrolled{background:rgba(5,5,6,.7);backdrop-filter:blur(16px) saturate(140%)
 body.uv nav.scrolled{background:rgba(6,2,13,.7)}
 nav.hide{transform:translateY(-100%)}
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px;gap:20px}
-.logo{font-family:var(--goth);font-size:30px;line-height:1}
+.logo{font-family:var(--goth);font-size:30px;line-height:1;display:inline-flex;flex-direction:column;align-items:center;gap:2px}
+.logo .wm{line-height:1}
+.knife{width:96px;height:24px;display:block;overflow:visible}
+.knife .kh{fill:var(--ink)}.knife .kr{fill:var(--bg)}.knife .kg{fill:var(--mute)}
+.knife .kb{fill:url(#chrome);filter:drop-shadow(0 0 3px rgba(255,255,255,.25))}
+.knife .ke{fill:none;stroke:rgba(255,255,255,.85);stroke-width:.6}
+.knife .kbl{fill:#b3121f;filter:drop-shadow(0 0 2px rgba(179,18,31,.6))}
+.logo:hover .knife .kbl:last-child{animation:drip 1.4s var(--ease) infinite}
+@keyframes drip{0%{transform:translateY(0);opacity:1}70%{transform:translateY(6px);opacity:1}100%{transform:translateY(9px);opacity:0}}
+.fknife{width:min(520px,70vw);height:auto;margin:-40px auto 60px}
+body.uv .knife .kbl{fill:#ff3df2;filter:drop-shadow(0 0 4px #ff3df2)}
+body.bone .knife .kb{filter:none}body.bone .knife .ke{stroke:rgba(255,255,255,.6)}
 .navlinks{display:flex;gap:28px}
 .navlinks a{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);position:relative;transition:color .2s}
 .navlinks a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--acc);transform:scaleX(0);transition:transform .3s var(--ease)}
@@ -680,7 +691,7 @@ body.bone .regen{background:rgba(236,230,220,.7)}
 
 <nav id="nav">
   <div class="wrap">
-    <a href="#top" class="logo chrome">VØIDTHORN</a>
+    <a href="#top" class="logo" aria-label="Knifeline home"><span class="wm chrome">KNIFELINE</span><svg class="knife" viewBox="0 0 120 30" aria-hidden="true"><path class="kh" d="M5,9.6h27.5a2.7,2.7 0 0 1 0,5.4H5a2.7,2.7 0 0 1 0-5.4z"/><circle class="kr" cx="12" cy="12.3" r="1"/><circle class="kr" cx="22" cy="12.3" r="1"/><path class="kg" d="M33,6.2h3.2v12.2H33z"/><path class="kb" d="M36.2,8.6L102,8.6Q112,9 118.5,12.3Q110,15.9 97,16L36.2,16Z"/><path class="ke" d="M38,9.6L101,9.6Q109,10 114.5,11.9"/><path class="kbl" d="M80,16Q90,16.2 97,16Q108,15.8 115.5,13.2Q113.5,15.2 109,16.4Q104,17.6 99,17.5Q98.3,20.4 96.8,22.6Q95.2,24.5 94.2,22.5Q93.8,20.2 95,17.6Q88,17.3 80,16Z"/><path class="kbl" d="M95.6,25.6q.9,1.6 0,2.6q-1,.8-1.8,0q-.8-1 .2-2.6l.8-1.4z"/></svg></a>
     <div class="navlinks">
       <a href="#styles">Styles</a><a href="#work">Work</a><a href="#lab">Sigil Lab</a><a href="#flash">Flash</a><a href="#ritual">Process</a><a href="#care">Aftercare</a><a href="#faq">FAQ</a>
     </div>
@@ -1078,7 +1089,7 @@ body.bone .regen{background:rgba(236,230,220,.7)}
         <h2 class="big">Start your <span class="chrome">piece</span></h2>
         <p>Tell me what you're after. The more detail, the better the first sketch. Every request gets a reply within 48 hours.</p>
         <div class="status mono"><i></i>Books open · Dec – Feb</div>
-        <div class="contact"><span class="mono">Direct</span><span>hello@voidthorn.studio</span><span>Instagram @voidthorn.ink</span></div>
+        <div class="contact"><span class="mono">Direct</span><span>hello@knifeline.studio</span><span>Instagram @knifeline.ink</span></div>
         <svg viewBox="0 0 200 320" class="ink" id="bookSigil"></svg>
       </div>
       <form id="form" novalidate>
@@ -1131,14 +1142,15 @@ body.bone .regen{background:rgba(236,230,220,.7)}
 
 <footer>
   <div class="wrap">
-    <div class="fbig chrome">VØIDTHORN</div>
+    <div class="fbig chrome">KNIFELINE</div>
+    <svg class="knife fknife" viewBox="0 0 120 30" aria-hidden="true"><path class="kh" d="M5,9.6h27.5a2.7,2.7 0 0 1 0,5.4H5a2.7,2.7 0 0 1 0-5.4z"/><circle class="kr" cx="12" cy="12.3" r="1"/><circle class="kr" cx="22" cy="12.3" r="1"/><path class="kg" d="M33,6.2h3.2v12.2H33z"/><path class="kb" d="M36.2,8.6L102,8.6Q112,9 118.5,12.3Q110,15.9 97,16L36.2,16Z"/><path class="ke" d="M38,9.6L101,9.6Q109,10 114.5,11.9"/><path class="kbl" d="M80,16Q90,16.2 97,16Q108,15.8 115.5,13.2Q113.5,15.2 109,16.4Q104,17.6 99,17.5Q98.3,20.4 96.8,22.6Q95.2,24.5 94.2,22.5Q93.8,20.2 95,17.6Q88,17.3 80,16Z"/><path class="kbl" d="M95.6,25.6q.9,1.6 0,2.6q-1,.8-1.8,0q-.8-1 .2-2.6l.8-1.4z"/></svg>
     <div class="fcols">
       <div><span class="mono">Studio</span><p>Unit 4, [Street Name]<br>London E2 · By appointment</p></div>
-      <div><span class="mono">Contact</span><p>hello@voidthorn.studio</p><p>Instagram @voidthorn.ink</p></div>
+      <div><span class="mono">Contact</span><p>hello@knifeline.studio</p><p>Instagram @knifeline.ink</p></div>
       <div><span class="mono">Hours</span><p>Tue–Sat · 11:00–19:00</p><p>Guest spots announced on Instagram</p></div>
       <div><span class="mono">Explore</span><a href="#styles">Styles</a><a href="#lab">Sigil Lab</a><a href="#care">Aftercare</a><a href="#book">Book</a></div>
     </div>
-    <div class="legal mono"><span>© 2026 VØIDTHORN Tattoo</span><span>Licensed studio · 18+ only · Photos: the artist's own work</span><a href="#top">Back to top ↑</a></div>
+    <div class="legal mono"><span>© 2026 Knifeline Tattoo</span><span>Licensed studio · 18+ only · Photos: the artist's own work</span><a href="#top">Back to top ↑</a></div>
   </div>
 </footer>
 
@@ -1538,7 +1550,7 @@ $('#form').addEventListener('submit',e=>{e.preventDefault();const v=id=>$('#'+id
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v('email'))){err.textContent='Please add a valid email.';return}
     if(!$('#age').checked){err.textContent='You must be 18+ to book.';return}
     const files=$('#refs').files.length;
-    $('#ticket').innerHTML=`REF <b>VT-${Math.floor(1000+Math.random()*9000)}</b><br>TYPE <b>${type}${type==='Flash'?' · '+esc(fs.value):''}</b><br>STYLE <b>${esc(v("pstyle"))}</b><br>PLACEMENT <b>${esc(v('place'))} · ${esc(v('size'))}</b><br>INK <b>${esc(v('ink'))}</b><br>REFERENCES <b>${files} image${files===1?'':'s'}</b><br>NAME <b>${esc(v('name'))}</b><br>EMAIL <b>${esc(v('email'))}</b>`;go(3);return}
+    $('#ticket').innerHTML=`REF <b>KL-${Math.floor(1000+Math.random()*9000)}</b><br>TYPE <b>${type}${type==='Flash'?' · '+esc(fs.value):''}</b><br>STYLE <b>${esc(v("pstyle"))}</b><br>PLACEMENT <b>${esc(v('place'))} · ${esc(v('size'))}</b><br>INK <b>${esc(v('ink'))}</b><br>REFERENCES <b>${files} image${files===1?'':'s'}</b><br>NAME <b>${esc(v('name'))}</b><br>EMAIL <b>${esc(v('email'))}</b>`;go(3);return}
   if(step===3){$('#form').reset();setType('Custom');go(0);return}
   go(step+1)});
 
