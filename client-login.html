@@ -322,6 +322,21 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
 .file{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:.88rem}
 .file .ic{width:32px;height:32px;border-radius:8px;background:var(--raise);display:grid;place-items:center;font-size:.65rem;font-weight:700;color:var(--accent);flex:none}
 .file small{display:block;color:var(--dim);font-size:.75rem}
+a.file{color:inherit;text-decoration:none}a.file:hover{border-color:var(--accent)}
+.tl li small.d{grid-column:2/4;margin-top:-8px;color:var(--dim)}
+.ck{display:grid;gap:8px}
+.ck .it{padding:9px 11px;border:1px solid var(--line);border-radius:10px;font-size:.86rem;user-select:none}
+.ck .it.on{border-color:rgba(127,211,166,.4);background:rgba(127,211,166,.06)}
+.ck .it.mk{border-color:rgba(157,177,255,.4);background:rgba(157,177,255,.06)}
+.ck .main{display:grid;grid-template-columns:18px 1fr;gap:10px;align-items:start;cursor:pointer}
+.ck input{width:16px;height:16px;margin:2px 0 0;accent-color:#7FD3A6}
+.ck small{display:block;color:var(--dim);font-size:.75rem;margin-top:2px}
+.ck .alt{display:inline-flex;align-items:center;gap:6px;margin:6px 0 0 28px;font-size:.75rem;color:var(--accent);cursor:pointer}
+.ck .alt input{width:13px;height:13px;margin:0;accent-color:var(--accent)}
+.svc-chips{display:flex;flex-wrap:wrap;gap:6px}
+.svc-chips span,.svc-chips a{font-size:.75rem;padding:5px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);text-decoration:none}
+.svc-chips span.on{border-color:rgba(157,177,255,.45);color:var(--fg);background:rgba(157,177,255,.08)}
+.svc-chips a:hover{border-color:var(--accent);color:var(--fg)}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--void);padding:10px 18px;border-radius:999px;font-weight:600;font-size:.9rem;z-index:80;box-shadow:0 10px 30px rgba(0,0,0,.4)}
 @media (max-width:1000px){
   #app{height:auto;min-height:100%;display:block}
@@ -521,13 +536,22 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
       </div>
 
       <div class="p-sec">
-        <h3>Timeline</h3>
-        <ul class="tl" id="tlList">
-          <li class="done"><span>Discovery call &amp; brief</span><small>2 Nov</small></li>
-          <li class="done"><span>Designs signed off</span><small>4 Nov</small></li>
-          <li class="now"><span>Build &amp; review</span><small>Now</small></li>
-          <li><span>Launch</span><small>6 Nov</small></li>
-        </ul>
+        <div class="p-head"><h3>Your project journey</h3><span class="small" id="tlStep"></span></div>
+        <ul class="tl" id="tlList"></ul>
+      </div>
+
+      <div class="p-sec" id="pkgSec">
+        <div class="p-head"><h3>Your package</h3><a class="small" href="pricing.html#quote" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">See all services</a></div>
+        <div class="svc-chips" id="pkgChips"></div>
+        <p class="small" id="pkgText"></p>
+      </div>
+
+      <div class="p-sec" id="ckSec">
+        <div class="p-head"><h3>What we need from you</h3><span class="small" id="ckCount">0 of 0 ready</span></div>
+        <div class="meter"><i id="ckMeter" style="--w:0%"></i></div>
+        <p class="small">Tick each item once you've sent it, or tick <b>Create it for me</b> and we'll make it. Your 5-day clock starts when everything's ready.</p>
+        <div class="ck" id="ckList"></div>
+        <button class="btn" type="button" id="ckSend">Send my checklist to Pedro</button>
       </div>
 
       <div class="p-sec howto" id="howtoSec">
@@ -537,12 +561,8 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
       </div>
 
       <div class="p-sec" id="filesSec">
-        <h3>Files</h3>
-        <div class="files">
-          <div class="file"><span class="ic">PDF</span><div>Project brief<small>Signed 2 Nov</small></div></div>
-          <div class="file"><span class="ic">FIG</span><div>Brand colours &amp; type<small>Updated for v3</small></div></div>
-          <div class="file"><span class="ic">ZIP</span><div>Product photos<small>24 images</small></div></div>
-        </div>
+        <div class="p-head"><h3>Your brand files</h3><span class="small" id="filesCount"></span></div>
+        <div class="files" id="filesList"></div>
       </div>
     </aside>
   </div>
@@ -1121,7 +1141,7 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
     $('demoText').textContent = 'Your demo locks on '+fmtDate(demo.end)+'. After that it can no longer be opened.';
   }
   function setupLive(){
-    $('versions').hidden = true; $('verTag').hidden = true; $('filesSec').hidden = true; $('buildMeter').hidden = true;
+    $('versions').hidden = true; $('verTag').hidden = true; $('buildMeter').hidden = true;
     const vs = $('variants');
     if(project.variants){
       if(project.vi==null) project.vi = 0;
@@ -1133,7 +1153,7 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
         if(!approved['live-'+project.code]) $('approve').textContent = 'Approve variant '+project.variants[project.vi].id; };
     } else vs.hidden = true;
     $('statusPill').className = 'pill wait'; $('statusPill').innerHTML = '<i></i>Awaiting your decision';
-    $('tlList').innerHTML = '<li class="done"><span>Free demo shared</span><small>'+fmtDate(demo.start).split(' ').slice(0,3).join(' ')+'</small></li><li class="now"><span>Your review</span><small>Now</small></li><li><span>Build</span><small>5 working days</small></li><li><span>Launch</span><small>After approval</small></li>';
+    renderJourney();
     const ok = !!approved['live-'+project.code];
     $('approveBox').classList.toggle('done', ok);
     $('apTitle').textContent = ok ? 'Demo approved' : 'Love your demo?';
@@ -1218,11 +1238,90 @@ body.no-select input,body.no-select textarea{-webkit-user-select:text;user-selec
   $('mSignout').addEventListener('click', ()=>{ mOpen(false); $('logout').click(); });
   phone.addEventListener('change', ()=>{ if(!phone.matches) mOpen(false); });
   document.addEventListener('keydown', e=>{ if(e.key==='Escape') mOpen(false); });
+  /* ===== Project journey, package, checklist and brand files =====
+     Per project (optional) in PROJECTS: stage (0-5), services ['website','brand','photo','video','social','ads'],
+     files [{name, note, url, type}], checklist [{id, label, note, create}] (defaults below). */
+  const STAGES = [['Free demo','Designed for you, free'],['Your review','Comment and approve'],['Kick-off','50% deposit, then send us what you have'],['Brand & design','Days 1–2'],['Shoot & build','Days 3–4'],['Launch','Day 5: you\'re live']];
+  const SERVICES = {website:'Website', brand:'Logo & brand', photo:'Photography', video:'Video', social:'Social media look', ads:'Adverts'};
+  const DEFAULT_CHECK = [
+    {id:'logo', label:'Your logo or brand files', note:'Any logo, colours or fonts you already use', create:'Create my logo for me'},
+    {id:'about', label:'A few lines about your business', note:'What you do, who it\'s for and what makes you different', create:'Write it for me'},
+    {id:'photos', label:'Photos you\'d like to use', note:'Team, premises, products or work', create:'Book a photo shoot'},
+    {id:'domain', label:'Your web address login', note:'Where your domain is registered, e.g. GoDaddy or 123 Reg'},
+    {id:'social', label:'Your social media accounts', note:'Instagram, Facebook, TikTok or LinkedIn handles', create:'Set them up for me'},
+    {id:'extras', label:'Booking, shop or payment details', note:'Only if your site takes bookings or sells online'}
+  ];
+  const EXAMPLE_FILES = [
+    {name:'Project brief', note:'Signed 2 Nov', type:'PDF'},
+    {name:'Logo pack', note:'SVG, PNG and favicon', type:'ZIP'},
+    {name:'Brand guidelines', note:'Colours, fonts and logo use', type:'PDF'},
+    {name:'Product photos', note:'24 images', type:'ZIP'},
+    {name:'Social media kit', note:'Profile images and 12 templates', type:'ZIP'}
+  ];
+  const esc = s => String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  function stageNow(){
+    if(project.stage!=null) return project.stage;
+    if(project.rolling) return 4;
+    return approved['live-'+project.code] ? 2 : 1;
+  }
+  function renderJourney(){
+    const now = stageNow();
+    $('tlStep').textContent = 'Step '+(now+1)+' of '+STAGES.length;
+    $('tlList').innerHTML = STAGES.map(([t,d],i)=>{
+      const cls = i<now ? 'done' : (i===now ? 'now' : '');
+      let when = i<now ? 'Done' : (i===now ? 'Now' : '');
+      if(i===0 && demo && demo.start && !project.rolling) when = fmtDate(demo.start).split(' ').slice(0,3).join(' ');
+      return `<li class="${cls}"><span>${esc(t)}</span><small>${esc(when)}</small><small class="d">${esc(d)}</small></li>`;
+    }).join('');
+  }
+  function renderPackage(){
+    const have = project.services || (project.rolling ? ['website','brand','photo','social'] : ['website']);
+    const missing = Object.keys(SERVICES).filter(k=>!have.includes(k));
+    $('pkgChips').innerHTML = have.map(k=>`<span class="on">✓ ${esc(SERVICES[k])}</span>`).join('') + missing.map(k=>`<a href="pricing.html#quote" target="_blank" rel="noopener">+ ${esc(SERVICES[k])}</a>`).join('');
+    $('pkgText').textContent = missing.length ? 'Want your whole brand ready in 5 days? Add a logo, photos, video, a new social media look or adverts and we\'ll create it alongside your website.' : 'Your complete brand, created by one studio.';
+  }
+  function checkState(){ return store.get('pw-check-'+project.code, {}); }
+  function renderChecklist(){
+    const list = project.checklist || DEFAULT_CHECK, st = checkState();
+    $('ckList').innerHTML = list.map(c=>`<div class="it${st[c.id]==='sent'?' on':(st[c.id]==='make'?' mk':'')}"><label class="main"><input type="checkbox" data-ck="${c.id}" ${st[c.id]==='sent'?'checked':''}><span>${esc(c.label)}<small>${esc(c.note||'')}</small></span></label>${c.create?`<label class="alt"><input type="checkbox" data-mk="${c.id}" ${st[c.id]==='make'?'checked':''}>${esc(c.create)}</label>`:''}</div>`).join('');
+    const done = list.filter(c=>st[c.id]).length;
+    $('ckCount').textContent = done+' of '+list.length+' ready';
+    $('ckMeter').style.setProperty('--w', (done/list.length*100)+'%');
+  }
+  $('ckList').addEventListener('change', e=>{
+    const t = e.target, st = checkState();
+    if(t.dataset.ck){ if(t.checked) st[t.dataset.ck] = 'sent'; else if(st[t.dataset.ck]==='sent') delete st[t.dataset.ck]; }
+    if(t.dataset.mk){ if(t.checked) st[t.dataset.mk] = 'make'; else if(st[t.dataset.mk]==='make') delete st[t.dataset.mk]; }
+    store.set('pw-check-'+project.code, st); renderChecklist();
+  });
+  $('ckSend').addEventListener('click', ()=>{
+    if(project.rolling){ toast('This is the example project, so nothing was sent.'); return; }
+    const list = project.checklist || DEFAULT_CHECK, st = checkState();
+    const f = new FormData();
+    f.set('_subject', 'Checklist update: '+project.name);
+    f.set('project', project.name); f.set('access_code', project.code);
+    list.forEach(c=>f.set(c.label, st[c.id]==='sent' ? 'Sent' : (st[c.id]==='make' ? 'PDS to create ('+(c.create||'')+')' : 'Not yet')));
+    f.set('sent_at', new Date().toLocaleString('en-GB',{dateStyle:'full',timeStyle:'short',timeZone:'Europe/London'}));
+    fetch(APPROVAL_ENDPOINT, {method:'POST', headers:{'Accept':'application/json'}, body:f})
+      .then(r=>{ if(!r.ok) throw new Error(r.status); toast('Checklist sent to Pedro'); })
+      .catch(()=>toast('That didn\'t send. Please try again, or email Pedro.'));
+  });
+  function renderFiles(){
+    const files = project.files || (project.rolling ? EXAMPLE_FILES : []);
+    $('filesSec').hidden = false;
+    $('filesCount').textContent = files.length ? files.length+' file'+(files.length>1?'s':'') : '';
+    $('filesList').innerHTML = files.length
+      ? files.map(f=>{ const inner = `<span class="ic">${esc(f.type||'FILE')}</span><div>${esc(f.name)}<small>${esc(f.note||'')}</small></div>`;
+          return f.url ? `<a class="file" href="${esc(f.url)}" target="_blank" rel="noopener" download>${inner}</a>` : `<div class="file">${inner}</div>`; }).join('')
+      : '<p class="small">Once your project launches, your logo pack, brand guidelines, photos, videos and social media kit will be here to download, whenever you need them.</p>';
+  }
+  function renderExtras(){ renderJourney(); renderPackage(); renderChecklist(); renderFiles(); }
   function boot(){
     mOpen(false);
     setWatermark(); shield(false); document.body.classList.add('no-select');
     clearInterval(demoTimer); tickDemo(); demoTimer = setInterval(tickDemo, 1000);
     $('demoChip').hidden = false;
+    renderExtras();
     if(project.liveUrl){ setupLive(); return; }
     $('versions').hidden = false; $('verTag').hidden = false; $('filesSec').hidden = false; $('buildMeter').hidden = false; $('variants').hidden = true;
     hist=['home']; hi=0; setVersion(3);
