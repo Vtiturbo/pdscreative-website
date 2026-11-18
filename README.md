@@ -14,6 +14,7 @@ The website for **pdscreative.com** (Pedro de Sousa: web design, photography and
   - Every free demo locks 48 hours after `sharedAt`. The demo site itself must also be locked (see verve-display `src/lib/demo.ts`).
   - Live demos can have several design variants (`variants` in `PROJECTS`); the client switches between them with tabs and the approval email says which one they chose.
   - Codes: KNIFE-7K3Q (Knifeline tattoo studio, 3 variants, locks 20 Nov 2026 6:15pm; old code VOID-7K3Q still works), NORTH-2026 (example project), VERVE-48K7 (Verve Display, expired 5 Nov 2026), VERVE-RV11 (Verve Display reopened, locks 8 Nov 2026 1:15pm).
+  - On phones (820px wide or less) the demo fills the screen; a floating timer button opens a slide-out panel with variants, approval, comments, timeline and the how-to video. Desktop is unchanged.
   - Real client codes show the Demo Viewing & Copyright Agreement first; acceptance is emailed to pds.creativedesign@gmail.com.
 - `PDS-Pricing-and-Packages.pdf` is the downloadable price list.
 
