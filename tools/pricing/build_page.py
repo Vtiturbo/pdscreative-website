@@ -11,7 +11,7 @@ pct = lambda p, l: round((1 - p / l) * 100)
 lo_pkg = min(p["price"] for p in P.PACKAGES.values())
 lo_site = min(s["price"] for s in P.SITES.values())
 lo_care = min(c["price"] for c in P.CARE.values())
-DESC = f"Complete brand packages from {gbp(lo_pkg)}: logo, custom-coded website, photography, video, social media and adverts, ready in 5 days. Around 30% below typical London rates."
+DESC = f"Complete brand packages from {gbp(lo_pkg)}: logo, custom-coded website, photography, video, social media and adverts, ready in 5 days. Most services priced well below typical London rates."
 
 CSS = """/* GEN-PRICING-CSS:start (tools/pricing/build_page.py) */
 .lon{display:block;color:#7FD3A6;font-size:.8rem;margin-top:2px}
@@ -39,15 +39,19 @@ def li(items):
     return "".join(f"<li>{e(i)}</li>" for i in items)
 
 
+def lon_cell(v):
+    return f"{gbp(v['london'])}{v.get('unit','')}" if pct(v['price'], v['london']) >= 10 else "—"
 def rows3(items):
-    return "".join(f"<tr><th>{e(v['name'])}</th><td>{e(v.get('desc',''))}</td><td>{gbp(v['london'])}{v.get('unit','')}</td><td class=\"hl\">{gbp(v['price'])}{v.get('unit','')}</td></tr>" for v in items)
+    return "".join(f"<tr><th>{e(v['name'])}</th><td>{e(v.get('desc',''))}</td><td>{lon_cell(v)}</td><td class=\"hl\">{gbp(v['price'])}{v.get('unit','')}</td></tr>" for v in items)
+def rows4(items):
+    return "".join(f"<tr><th>{e(v['name'])}</th><td>{e(v.get('desc',''))}</td><td>{lon_cell(v)}</td><td>{gbp(v['price'])}{v.get('unit','')}</td><td class=\"hl\">{gbp(v['w']) if 'w' in v else '—'}</td></tr>" for v in items)
 
 
 compare = [("Brand Launch package", P.PACKAGES["launch"]["price"], P.london_of_package(P.PACKAGES["launch"]), ""),
            (P.BRAND["kit"]["name"], P.BRAND["kit"]["price"], P.BRAND["kit"]["london"], ""),
            ("Signature website", P.SITES["signature"]["price"], P.SITES["signature"]["london"], ""),
            (P.SOCIAL["makeover"]["name"], P.SOCIAL["makeover"]["price"], P.SOCIAL["makeover"]["london"], ""),
-           (P.PHOTO["half"]["name"], P.PHOTO["half"]["price"], P.PHOTO["half"]["london"], ""),
+           (P.SUBS["monthly"]["name"]+" content plan", P.SUBS["monthly"]["price"], P.SUBS["monthly"]["london"], "/mo"),
            (P.VIDEO["film"]["name"], P.VIDEO["film"]["price"], P.VIDEO["film"]["london"], ""),
            ("Growth care plan", P.CARE["growth"]["price"], P.CARE["growth"]["london"], "/mo")]
 cmp_rows = "".join(f"<tr><th>{e(n)}</th><td>{gbp(l)}{u}</td><td class=\"hl\">{gbp(p)}{u}</td><td class=\"ok\">{pct(p, l)}% less</td></tr>" for n, p, l, u in compare)
@@ -67,12 +71,12 @@ site_head = "".join(f"<th{' class=\"hl\"' if s.get('popular') else ''}>{e(s['nam
 site_rows = [("Ideal for", [s["best"] for s in P.SITES.values()]), ("Live in", [s["days"] for s in P.SITES.values()])]
 for i in range(5):
     site_rows.append(("" if i else "What's included", [s["feats"][i] for s in P.SITES.values()]))
-site_rows.append(("Typical London price", [gbp(s["london"]) for s in P.SITES.values()]))
+site_rows.append(("Typical London price", [gbp(s["london"]) if pct(s["price"], s["london"]) >= 10 else "—" for s in P.SITES.values()]))
 site_tbody = "".join("<tr><th>" + e(r) + "</th>" + "".join(f"<td{' class=\"hl\"' if list(P.SITES.values())[j].get('popular') else ''}>{e(v)}</td>" for j, v in enumerate(vals)) + "</tr>" for r, vals in site_rows)
 extras = "".join(f"<tr><th>{e(v['name'])}</th><td>{gbp(v['price'])}</td></tr>" for v in P.EXTRAS.values())
 care_head = "".join(f"<th{' class=\"hl\"' if c.get('popular') else ''}>{e(c['name'])}<small>{gbp(c['price'])}/mo · {e(c['best'])}</small></th>" for c in P.CARE.values())
-care_body = "".join("<tr><th>" + e(r) + "</th>" + "".join(f"<td{' class=\"hl\"' if list(P.CARE.values())[j].get('popular') else ''}>{e(v)}</td>" for j, v in enumerate(vals)) + "</tr>" for r, vals in P.CARE_ROWS + [("Typical London price", [gbp(c["london"]) + "/mo" for c in P.CARE.values()])])
-subs = "".join(f"<div{' class=\"pop\"' if s.get('popular') else ''}><b>{e(s['name'])}{' <span class=\"q-tag\" style=\"margin-left:6px\">Most popular</span>' if s.get('popular') else ''}</b><span class=\"pr\">{gbp(s['price'])}/mo</span><ul>{li(s['feats'])}</ul><span class=\"lon\">Typical London {gbp(s['london'])}/mo · {pct(s['price'], s['london'])}% less</span></div>" for s in P.SUBS.values())
+care_body = "".join("<tr><th>" + e(r) + "</th>" + "".join(f"<td{' class=\"hl\"' if list(P.CARE.values())[j].get('popular') else ''}>{e(v)}</td>" for j, v in enumerate(vals)) + "</tr>" for r, vals in P.CARE_ROWS + [("Typical London price", [gbp(c["london"]) + "/mo" if pct(c["price"], c["london"]) >= 10 else "—" for c in P.CARE.values()])])
+subs = "".join(f"<div{' class=\"pop\"' if s.get('popular') else ''}><b>{e(s['name'])}{' <span class=\"q-tag\" style=\"margin-left:6px\">Most popular</span>' if s.get('popular') else ''}</b><span class=\"pr\">{gbp(s['price'])}/mo</span><ul>{li(s['feats'])}</ul>{f'<span class=\"lon\">Typical London {gbp(s["london"])}/mo · {pct(s["price"], s["london"])}% less</span>' if pct(s['price'], s['london']) >= 10 else ''}</div>" for s in P.SUBS.values())
 bundles = ""
 for b in P.BUNDLES:
     c, s = P.CARE[b["care"]], P.SUBS[b["sub"]]
@@ -84,7 +88,7 @@ MAIN = f"""<main>
   <div class="wrap">
     <span class="eyebrow mono">Pricing &amp; packages · {P.EDITION}</span>
     <h1>We create the brand. <span class="grad">You're ready in 5 days.</span></h1>
-    <p class="lede">Logo and branding, a custom-coded website, photography, video, a new social media look and adverts, all from one studio, and around 30% below typical London rates.</p>
+    <p class="lede">Logo and branding, a custom-coded website, photography, video, a new social media look and adverts, all from one studio, with most services priced well below typical London rates.</p>
     <div class="glance">
       <div><span>Complete brand packages</span><b>from {gbp(lo_pkg)}</b><span>Brand, website, photos and social</span></div>
       <div><span>Custom-coded websites</span><b>from {gbp(lo_site)}</b><span>One-off price, live in 5 days</span></div>
@@ -111,7 +115,7 @@ MAIN = f"""<main>
     </div>
     <div>
       <div class="ref-head"><span class="eyebrow mono">How we price</span><h2>Affordable, without cutting corners</h2>
-        <p class="lede">We believe great design shouldn't be out of reach for a new business. We check what London studios typically charge for every service and price around 30% below the average, with the same standard of work.</p></div>
+        <p class="lede">We believe great design shouldn't be out of reach for a new business. We check what London studios typically charge and keep most of our prices well below the average, with the same standard of work.</p></div>
       <div class="tbl"><table class="cmp-tbl">
         <thead><tr><th>Service</th><th>Typical London</th><th class="hl">PDS Creative</th><th>Saving</th></tr></thead>
         <tbody>{cmp_rows}</tbody>
@@ -232,7 +236,7 @@ MAIN = f"""<main>
     <div>
       <div class="ref-head"><span class="eyebrow mono">Photography &amp; video</span><h2>Real photos and video of your real business</h2>
         <p class="lede">Stock photos make every business look the same. We photograph and film your team, premises, products and work.</p></div>
-      <div class="tbl"><table><thead><tr><th>Shoot</th><th>What you get</th><th>Typical London</th><th class="hl">PDS Creative</th></tr></thead><tbody>{rows3(list(P.PHOTO.values()) + list(P.VIDEO.values()))}</tbody></table></div>
+      <div class="tbl"><table><thead><tr><th>Shoot</th><th>What you get</th><th>Typical London</th><th>PDS Creative</th><th class="hl">With a new website</th></tr></thead><tbody>{rows4(list(P.PHOTO.values()) + list(P.VIDEO.values()))}</tbody></table></div>
     </div>
     <div>
       <div class="ref-head"><span class="eyebrow mono">Monthly care plans</span><h2>We look after your site, so you don't have to</h2>
@@ -276,8 +280,8 @@ DATA = {
     "site": {k: {"name": v["name"], "p": v["price"], "best": v["best"], "feats": v["feats"][:4], "care": v["care"], "from": bool(v.get("from")),
                  "popular": bool(v.get("popular")), "london": v["london"]} for k, v in P.SITES.items()},
     "social": {k: {"name": v["name"], "p": v["price"], "desc": v["desc"], "london": v["london"]} for k, v in P.SOCIAL.items()},
-    "photo": {k: {"name": v["name"], "p": v["price"], "desc": v["desc"], "london": v["london"]} for k, v in P.PHOTO.items()},
-    "video": {k: {"name": v["name"], "p": v["price"], "desc": v["desc"], "london": v["london"]} for k, v in P.VIDEO.items()},
+    "photo": {k: {"name": v["name"], "p": v["price"], "w": v.get("w"), "desc": v["desc"], "london": v["london"]} for k, v in P.PHOTO.items()},
+    "video": {k: {"name": v["name"], "p": v["price"], "w": v.get("w"), "desc": v["desc"], "london": v["london"]} for k, v in P.VIDEO.items()},
     "extra": {k: {"name": v["name"], "p": v["price"]} for k, v in P.EXTRAS.items()},
     "care": {k: {"name": v["name"], "p": v["price"], "disc": v["disc"], "best": v["best"], "london": v["london"], "popular": bool(v.get("popular"))} for k, v in P.CARE.items()},
     "sub": {k: {"name": v["name"], "p": v["price"], "feats": v["feats"], "london": v["london"], "popular": bool(v.get("popular"))} for k, v in P.SUBS.items()},
@@ -304,11 +308,13 @@ SCRIPT = """<script>
     brand: k => { const b = inc().brand; return b && (b===k || (b==='kit' && k==='logo')); },
     site:  k => inc().site===k,
     social:k => inc().social.includes(k),
-    photo: k => inc().photo===k || (inc().photo==='combo' && k==='half'),
+    photo: k => inc().photo===k || (inc().photo==='combo' && k==='half') || (curSite()==='flagship' && k==='half'),
     video: k => inc().video.includes(k) || (inc().photo==='combo' && (k==='combo' || k==='film'))
   };
   const curSite = ()=> inc().site || (st.site in PR.site ? st.site : null);
   const careDisc = ()=> (PR.care[st.care]||{disc:0}).disc;
+  /* Shoots and films cost less when booked with a new website */
+  const mp = it => (curSite() && it.w) ? it.w : it.p;
 
   /* ---------- Calculation ---------- */
   function calc(){
@@ -320,13 +326,14 @@ SCRIPT = """<script>
     if(st.brand!=='none' && !covered.brand(st.brand)){ disc(PR.brand[st.brand].name, PR.brand[st.brand].p); london += PR.brand[st.brand].london; }
     if(!inc().site && st.site in PR.site){ once.push([PR.site[st.site].name+' website'+(PR.site[st.site].from?' (from)':''), PR.site[st.site].p]); london += PR.site[st.site].london; }
     Object.keys(PR.social).forEach(k=>{ if(st.social[k] && !covered.social(k)){ disc(PR.social[k].name, PR.social[k].p); london += PR.social[k].london; } });
-    if(st.combo && !covered.video('combo')){ disc(PR.video.combo.name, PR.video.combo.p); london += PR.video.combo.london; }
+    if(st.combo && !covered.video('combo')){ disc(PR.video.combo.name, mp(PR.video.combo)); london += PR.video.combo.london; }
     else if(!st.combo){
       if(st.photo!=='none' && !covered.photo(st.photo)){
-        const full = st.photo==='full' && covered.photo('half') ? PR.photo.full.p - PR.photo.half.p : PR.photo[st.photo].p;
-        disc(PR.photo[st.photo].name + (full!==PR.photo[st.photo].p ? ' (upgrade)' : ''), full); london += PR.photo[st.photo].london;
+        const up = st.photo==='full' && covered.photo('half');
+        const full = up ? mp(PR.photo.full) - mp(PR.photo.half) : mp(PR.photo[st.photo]);
+        disc(PR.photo[st.photo].name + (up ? ' (upgrade)' : ''), full); london += PR.photo[st.photo].london;
       }
-      if(st.film && !covered.video('film')){ disc(PR.video.film.name, PR.video.film.p); london += PR.video.film.london; }
+      if(st.film && !covered.video('film')){ disc(PR.video.film.name, mp(PR.video.film)); london += PR.video.film.london; }
     }
     if(st.reels && !covered.video('reels')){ disc(PR.video.reels.name, PR.video.reels.p); london += PR.video.reels.london; }
     if(st.heads>0){ const n = Math.max(st.heads,6); disc('Team headshots, '+n+' people'+(st.heads<6?' (6 minimum)':''), PR.photo.headshot.p*n); london += PR.photo.headshot.london*n; }
@@ -351,15 +358,16 @@ SCRIPT = """<script>
   function separateOf(p){
     const i = p.inc; let t = PR.brand[i.brand].p + PR.site[i.site].p;
     i.social.forEach(k=>t+=PR.social[k].p);
-    t += i.photo==='combo' ? PR.video.combo.p : PR.photo[i.photo].p;
-    i.video.forEach(k=>t+=PR.video[k].p);
+    const sh = i.photo==='combo' ? PR.video.combo : PR.photo[i.photo];
+    t += sh.w || sh.p;
+    i.video.forEach(k=>t+=PR.video[k].w||PR.video[k].p);
     return t;
   }
 
   /* ---------- Render ---------- */
   const opt = (name, key, checked, inner, dis, wide)=> `<label class="q-opt${wide?' wide':''}"><input type="radio" name="${name}" value="${key}" ${checked?'checked':''} ${dis?'disabled':''}><span class="q-card">${inner}</span></label>`;
   const tag = t => `<span class="q-tag">${t}</span>`;
-  const lon = (p, l, u='')=> `<span class="lon">Typical London ${gbp(l)}${u} · ${Math.round((1-p/l)*100)}% less</span>`;
+  const lon = (p, l, u='')=> (1-p/l) >= .1 ? `<span class="lon">Typical London ${gbp(l)}${u} · ${Math.round((1-p/l)*100)}% less</span>` : '';
   function sw(id, on, dis){ return `<label class="sw"><input type="checkbox" id="${id}" ${on?'checked':''} ${dis?'disabled':''}><span></span></label>`; }
   function row(label, desc, right, locked){ return `<div class="q-x${locked?' locked':''}"><div class="l"><b>${label}</b><span>${desc}</span></div><div class="r">${right}</div></div>`; }
 
@@ -381,12 +389,12 @@ SCRIPT = """<script>
       return row(v.name, v.desc, c?'<span class="inc">In your package</span>':`<span class="amt${st.social[k]?' on':''}">${gbp(v.p*(1-d))}</span>`+sw('so-'+k, !!st.social[k]), c);
     }).join('');
 
-    const ph = (k)=> covered.photo(k) ? 'Included' : (k==='full' && covered.photo('half') ? '+'+gbp((PR.photo.full.p-PR.photo.half.p)*(1-d)) : gbp(PR.photo[k].p*(1-d)));
+    const ph = (k)=> covered.photo(k) ? 'Included' : (k==='full' && covered.photo('half') ? '+'+gbp((mp(PR.photo.full)-mp(PR.photo.half))*(1-d)) : gbp(mp(PR.photo[k])*(1-d)));
     const comboCov = covered.video('combo');
-    let media = row('Brand photo shoot', 'Half day: 40+ images · Full day: 80+ images, multiple locations, headshots',
+    let media = row('Brand photo shoot', 'Half day: 40+ images · Full day: 80+ images, multiple locations, headshots' + (curSite() ? ' · with-website prices applied' : ' · cheaper with a new website'),
       `<div class="seg2" role="radiogroup" aria-label="Brand photo shoot">`+[['none','None'],['half','Half day '+ph('half')],['full','Full day '+ph('full')]].map(([v,l])=>`<label><input type="radio" name="photo" value="${v}" ${(st.photo===v || (v==='half'&&covered.photo('half')&&st.photo==='none'))?'checked':''} ${(st.combo||comboCov||(v==='none'&&covered.photo('half')))?'disabled':''}><span>${l}</span></label>`).join('')+`</div>`, comboCov);
-    media += row(PR.video.film.name, PR.video.film.desc, comboCov?'<span class="inc">In your package</span>':`<span class="amt${st.film?' on':''}">${gbp(PR.video.film.p*(1-d))}</span>`+sw('film', st.film, st.combo), comboCov);
-    media += row(PR.video.combo.name, PR.video.combo.desc, comboCov?'<span class="inc">In your package</span>':`<span class="amt${st.combo?' on':''}">${gbp(PR.video.combo.p*(1-d))}</span>`+sw('combo', st.combo), comboCov);
+    media += row(PR.video.film.name, PR.video.film.desc, comboCov?'<span class="inc">In your package</span>':`<span class="amt${st.film?' on':''}">${gbp(mp(PR.video.film)*(1-d))}</span>`+sw('film', st.film, st.combo), comboCov);
+    media += row(PR.video.combo.name, PR.video.combo.desc, comboCov?'<span class="inc">In your package</span>':`<span class="amt${st.combo?' on':''}">${gbp(mp(PR.video.combo)*(1-d))}</span>`+sw('combo', st.combo), comboCov);
     media += row(PR.video.reels.name, PR.video.reels.desc, covered.video('reels')?'<span class="inc">In your package</span>':`<span class="amt${st.reels?' on':''}">${gbp(PR.video.reels.p*(1-d))}</span>`+sw('reels', st.reels), covered.video('reels'));
     media += row('Team headshots', `Consistent on-site headshots · ${gbp(PR.photo.headshot.p)} per person, minimum 6 people`,
       `<div class="stepper" data-key="heads"><button type="button" aria-label="Fewer people">−</button><output>${st.heads}</output><button type="button" aria-label="More people">+</button></div><span class="amt${st.heads?' on':''}">${gbp(st.heads?PR.photo.headshot.p*Math.max(st.heads,6)*(1-d):0)}</span>`);

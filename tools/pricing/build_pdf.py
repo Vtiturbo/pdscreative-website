@@ -21,6 +21,8 @@ def ul(items):
 def page(body, cls=""):
     pages.append(f'<section class="page {cls}">{top()}{body}{foot()}</section>')
 def below(v):
+    if pct(v["price"], v["london"]) < 10:
+        return '<span class="vs" style="color:transparent">.</span>'
     return f'<span class="vs">London typical {gbp(v["london"])} · {pct(v["price"], v["london"])}% less</span>'
 
 lo_pkg = min(p["price"] for p in P.PACKAGES.values())
@@ -33,7 +35,7 @@ page(f'''
   <div class="eyebrow">WEBSITES · VIDEO · PHOTOGRAPHY · BRANDING · SOCIAL MEDIA · ADVERTS</div>
   <h1>We create the brand.<br><span class="hl">You're ready in 5 days.</span></h1>
   <p class="lede">Got an idea? PDS Creative builds everything your business needs to look the part: your logo and brand, a custom-coded website, photography, video, a new social media look and adverts that sell. One studio, one point of contact, one consistent look.</p>
-  <div class="pill"><span class="dot"></span>Around 30% below typical London studio rates, with no compromise on quality</div>
+  <div class="pill"><span class="dot"></span>Most services priced well below typical London studio rates, with no compromise on quality</div>
 </div>
 <div class="tiles">
   <div class="tile"><span>Complete brand packages</span><b>from {gbp(lo_pkg)}</b><em>Brand, website, photos and social</em></div>
@@ -42,8 +44,8 @@ page(f'''
 </div>''', "cover")
 
 # 2. Why PDS, how we price, how it works
-compare = [P.PACKAGES["launch"] | {"london": P.london_of_package(P.PACKAGES["launch"])}, P.BRAND["kit"], P.SITES["signature"], P.SOCIAL["makeover"], P.PHOTO["half"], P.VIDEO["film"], P.CARE["growth"]]
-rows = "".join(f"<tr><td><b>{e(v['name'])}</b></td><td class='r muted'>{gbp(v['london'])}{'/mo' if v in P.CARE.values() else ''}</td><td class='r now'>{gbp(v['price'])}{'/mo' if v in P.CARE.values() else ''}</td><td class='r ok'>{pct(v['price'], v['london'])}% less</td></tr>" for v in compare)
+compare = [P.PACKAGES["launch"] | {"london": P.london_of_package(P.PACKAGES["launch"])}, P.BRAND["kit"], P.SITES["signature"], P.SOCIAL["makeover"], P.VIDEO["film"], P.SUBS["monthly"], P.CARE["growth"]]
+rows = "".join(f"<tr><td><b>{e(v['name'])}</b></td><td class='r muted'>{gbp(v['london'])}{'/mo' if (v in P.CARE.values() or v in P.SUBS.values()) else ''}</td><td class='r now'>{gbp(v['price'])}{'/mo' if (v in P.CARE.values() or v in P.SUBS.values()) else ''}</td><td class='r ok'>{pct(v['price'], v['london'])}% less</td></tr>" for v in compare)
 page(f'''
 <div class="eyebrow">WHY PDS CREATIVE</div>
 <h2>Everything your brand needs, made by one studio</h2>
@@ -55,7 +57,7 @@ page(f'''
 </div>
 <div class="eyebrow" style="margin-top:9mm">HOW WE PRICE</div>
 <h3 class="h3big">Affordable, without cutting corners</h3>
-<p class="lede sm">We believe great design shouldn't be out of reach for a new business. We check what London studios typically charge for every service and price around 30% below the average, while delivering the same standard of work.</p>
+<p class="lede sm">We believe great design shouldn't be out of reach for a new business. We check what London studios typically charge and keep most of our prices well below the average, while delivering the same standard of work.</p>
 <table><thead><tr><th>Service</th><th class="r">Typical London</th><th class="r">PDS Creative</th><th class="r">Saving</th></tr></thead><tbody>{rows}</tbody></table>
 <p class="fine">Typical London prices are mid-range figures based on published 2026 UK price guides for agencies and freelancers, where London sits at the top of the UK range. Checked {P.EDITION}.</p>
 <div class="eyebrow" style="margin-top:8mm">HOW IT WORKS</div>
@@ -87,8 +89,12 @@ page(f'''
 <div class="note"><b>Every package includes:</b> a free website demo before you pay, your first month of website care free, and one point of contact from first idea to launch day. The 5-day clock starts once we have everything we need from you.</div>''')
 
 # 4. Branding, social and adverts
+def lon_cell(v):
+    return f"{gbp(v['london'])}{v.get('unit','')}" if pct(v['price'], v['london']) >= 10 else "—"
 def tbl(items, unit=""):
-    return "".join(f"<tr><td><b>{e(v['name'])}</b><br><span class='muted'>{e(v['desc'])}</span></td><td class='r muted'>{gbp(v['london'])}{v.get('unit','')}</td><td class='r now'>{gbp(v['price'])}{v.get('unit','')}</td></tr>" for v in items)
+    return "".join(f"<tr><td><b>{e(v['name'])}</b><br><span class='muted'>{e(v['desc'])}</span></td><td class='r muted'>{lon_cell(v)}</td><td class='r now'>{gbp(v['price'])}{v.get('unit','')}</td></tr>" for v in items)
+def tbl_media(items):
+    return "".join(f"<tr><td><b>{e(v['name'])}</b><br><span class='muted'>{e(v['desc'])}</span></td><td class='r muted'>{lon_cell(v)}</td><td class='r now'>{gbp(v['price'])}{v.get('unit','')}</td><td class='r now ok'>{gbp(v['w']) if 'w' in v else '—'}</td></tr>" for v in items)
 page(f'''
 <div class="eyebrow">BRANDING</div>
 <h2>A brand people remember</h2>
@@ -121,11 +127,11 @@ page(f'''
 <div class="eyebrow">PHOTOGRAPHY</div>
 <h2>Real photos of your real business</h2>
 <p class="lede sm">Stock photos make every business look the same. We photograph your team, premises, products and work, and every image is licensed for your website, social media and adverts.</p>
-<table><thead><tr><th>Shoot</th><th class="r">Typical London</th><th class="r">PDS Creative</th></tr></thead><tbody>{tbl(P.PHOTO.values())}</tbody></table>
+<table><thead><tr><th>Shoot</th><th class="r">Typical London</th><th class="r">PDS Creative</th><th class="r">With a new website</th></tr></thead><tbody>{tbl_media(P.PHOTO.values())}</tbody></table>
 <div class="eyebrow" style="margin-top:9mm">VIDEO</div>
 <h2>Video that makes people stop scrolling</h2>
 <p class="lede sm">From a homepage brand film to short vertical videos for Reels and TikTok, filmed and edited by the same team that designs your brand.</p>
-<table><thead><tr><th>Video</th><th class="r">Typical London</th><th class="r">PDS Creative</th></tr></thead><tbody>{tbl(P.VIDEO.values())}</tbody></table>''')
+<table><thead><tr><th>Video</th><th class="r">Typical London</th><th class="r">PDS Creative</th><th class="r">With a new website</th></tr></thead><tbody>{tbl_media(P.VIDEO.values())}</tbody></table>''')
 
 # 7. Care plans
 cards = ""
