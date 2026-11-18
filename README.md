@@ -22,5 +22,5 @@ The project brief form (homepage) and the quote form (pricing) send through Form
 `FORM_ENDPOINT` is set in `index.html` (Project brief form) and `pricing.html` (Quote request form). Submissions are emailed to pds.creativedesign@gmail.com.
 
 ## Free demos hosted here
-- `demos/vt-q8m2x/` holds the Knifeline demo (variants `a`, `b`, `c`). Each page has the demo guard (watermark, copy blocking, countdown, lock).
+- `demos/vt-q8m2x/` holds the Knifeline demo (variants `a` UV Ritual, `b` Chrome Void, `c` Bone & Ink; the logo is left out of demos as it is a paid extra). Each page has the demo guard (watermark, copy blocking, countdown, lock).
 - `functions/demos/vt-q8m2x/_middleware.js` (Cloudflare Pages Function) locks the files server-side at the deadline, stops search indexing and only allows framing by pdscreative.com.
