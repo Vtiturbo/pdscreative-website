@@ -1,4 +1,6 @@
 User-agent: *
 Disallow: /client-login.html
+Disallow: /demos/
+Disallow: /functions/
 
 Sitemap: https://pdscreative.com/sitemap.xml
